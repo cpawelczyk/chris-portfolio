@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import ParticleNetwork from "./ParticleNetwork";
 import {
   Server,
@@ -89,6 +90,18 @@ const skillCardIn = {
 };
 
 function App() {
+  const [showNav, setShowNav] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowNav(window.scrollY > 100);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0f0f10] text-white">
       <div className="ambient-background pointer-events-none fixed inset-0 z-0">
@@ -96,7 +109,13 @@ function App() {
       </div>
 
       <div className="relative z-10">
-        <nav className="fixed left-0 top-0 z-50 flex w-full justify-center gap-6 bg-[#18181a]/80 px-6 py-4 text-sm font-semibold backdrop-blur-md md:justify-end md:gap-10 md:px-12 md:text-base">
+        <nav
+          className={`fixed left-0 top-0 z-50 flex w-full justify-center gap-6 bg-[#18181a]/80 px-6 py-4 text-sm font-semibold backdrop-blur-md transition duration-500 md:justify-end md:gap-10 md:px-12 md:text-base ${
+            showNav
+              ? "translate-y-0 opacity-100"
+              : "pointer-events-none -translate-y-full opacity-0"
+          }`}
+        >
           <a href="#home" className="transition hover:text-red-400">Home</a>
           <a href="#about" className="transition hover:text-red-400">About</a>
           <a href="#case-studies" className="transition hover:text-red-400">Case Studies</a>
