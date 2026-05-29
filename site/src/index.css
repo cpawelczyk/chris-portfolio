@@ -10,3 +10,24 @@ body {
   color: white;
   font-family: Inter, system-ui, sans-serif;
 }
+
+.ambient-background {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(248, 113, 113, 0.09), transparent 28rem),
+    radial-gradient(circle at 82% 24%, rgba(255, 255, 255, 0.045), transparent 24rem),
+    radial-gradient(circle at 50% 86%, rgba(248, 113, 113, 0.055), transparent 30rem),
+    #0f0f10;
+  overflow: hidden;
+}
+
+.ambient-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(15, 15, 16, 0.04), rgba(15, 15, 16, 0.42));
+}
+
+.particle-network {
+  opacity: 1;
+  mix-blend-mode: screen;
+}

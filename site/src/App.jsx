@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import ParticleNetwork from "./ParticleNetwork";
 import {
   Server,
   ShieldCheck,
@@ -89,27 +89,11 @@ const skillCardIn = {
 };
 
 function App() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0f0f10] text-white">
-      <div
-        className="pointer-events-none fixed inset-0 z-0 transition duration-300"
-        style={{
-          background: `radial-gradient(650px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 70, 95, 0.18), transparent 45%)`,
-        }}
-      />
-
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[length:42px_42px] opacity-30" />
+      <div className="ambient-background pointer-events-none fixed inset-0 z-0">
+        <ParticleNetwork />
+      </div>
 
       <div className="relative z-10">
         <nav className="fixed left-0 top-0 z-50 flex w-full justify-center gap-6 bg-[#18181a]/80 px-6 py-4 text-sm font-semibold backdrop-blur-md md:justify-end md:gap-10 md:px-12 md:text-base">
