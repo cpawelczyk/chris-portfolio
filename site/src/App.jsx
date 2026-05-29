@@ -273,8 +273,54 @@ function App() {
           </div>
         </section>
 
-        <section id="contact" className="min-h-screen px-12 py-28">
-          <h2 className="text-center text-5xl font-bold">Contact</h2>
+        <section
+          id="contact"
+          className="flex min-h-screen flex-col justify-between px-6 py-28 md:px-12"
+        >
+          <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center text-center">
+            <p className="text-sm uppercase tracking-[0.35em] text-red-400">
+              Contact
+            </p>
+            <h2 className="mt-5 text-5xl font-bold leading-tight md:text-7xl">
+              Let&apos;s connect.
+            </h2>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-300 md:text-xl">
+              I&apos;m open to conversations about enterprise systems,
+              infrastructure operations, security technology, and technical
+              opportunities where practical execution matters.
+            </p>
+
+            <div className="mt-10 flex w-full max-w-3xl flex-col gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+              <a
+                href="mailto:cjpawelczyk@gmail.com"
+                className="rounded-xl border border-red-400/40 bg-[#18181a]/75 px-6 py-4 text-sm font-semibold text-red-300 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+              >
+                Email
+              </a>
+              <a
+                href="https://www.linkedin.com/in/chrispawelczyk"
+                className="rounded-xl border border-red-400/40 bg-[#18181a]/75 px-6 py-4 text-sm font-semibold text-red-300 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://github.com/cpawelczyk"
+                className="rounded-xl border border-red-400/40 bg-[#18181a]/75 px-6 py-4 text-sm font-semibold text-red-300 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+              >
+                GitHub
+              </a>
+              <a
+                href="/resume.pdf"
+                className="rounded-xl border border-red-400/40 bg-[#18181a]/75 px-6 py-4 text-sm font-semibold text-red-300 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+              >
+                Download Resume
+              </a>
+            </div>
+          </div>
+
+          <footer className="mx-auto mt-16 w-full max-w-7xl border-t border-white/10 pt-6 text-center text-sm text-gray-500 md:text-left">
+            Chris Pawelczyk &copy; 2026
+          </footer>
         </section>
       </div>
     </main>
