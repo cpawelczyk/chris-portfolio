@@ -1,14 +1,15 @@
 import { useEffect, useRef } from "react";
 
-const PRIMARY_CLUSTER_PARTICLES = 64;
-const REGIONAL_CLUSTER_PARTICLES = 34;
-const FIELD_DENSITY = 19000;
-const MIN_FIELD_PARTICLES = 72;
-const MAX_FIELD_PARTICLES = 104;
-const CLUSTER_LINK_DISTANCE = 155;
-const FIELD_LINK_DISTANCE = 126;
-const MOUSE_RADIUS = 290;
+const PRIMARY_CLUSTER_PARTICLES = 50;
+const REGIONAL_CLUSTER_PARTICLES = 26;
+const FIELD_DENSITY = 26000;
+const MIN_FIELD_PARTICLES = 44;
+const MAX_FIELD_PARTICLES = 72;
+const CLUSTER_LINK_DISTANCE = 140;
+const FIELD_LINK_DISTANCE = 108;
+const MOUSE_RADIUS = 250;
 const MOUSE_FORCE = 0.26;
+const GRID_SIZE = 150;
 
 const CLUSTER_REGIONS = [
   { x: -0.04, y: -0.05, width: 0.56, height: 0.6, strength: 1 },
@@ -49,7 +50,7 @@ function getParticleCount(width, height, reducedMotion) {
   if (reducedMotion) {
     return {
       clusters: [30, 18, 18, 16],
-      field: Math.max(28, Math.min(48, Math.floor((width * height) / 42000))),
+      field: Math.max(20, Math.min(34, Math.floor((width * height) / 52000))),
     };
   }
 
@@ -81,8 +82,32 @@ export default function ParticleNetwork() {
     let height = 0;
     let pixelRatio = 1;
     let startedAt = performance.now();
+    let isPaused = document.hidden;
+
+    const buildSpatialGrid = () => {
+      const grid = new Map();
+
+      particles.forEach((particle, index) => {
+        const cellX = Math.floor(particle.x / GRID_SIZE);
+        const cellY = Math.floor(particle.y / GRID_SIZE);
+        const key = `${cellX},${cellY}`;
+        const cell = grid.get(key);
+
+        if (cell) {
+          cell.push(index);
+        } else {
+          grid.set(key, [index]);
+        }
+      });
+
+      return grid;
+    };
 
     const draw = () => {
+      if (isPaused) {
+        return;
+      }
+
       const elapsed = performance.now() - startedAt;
 
       context.clearRect(0, 0, width, height);
@@ -132,10 +157,36 @@ export default function ParticleNetwork() {
         particle.y = Math.max(-60, Math.min(height + 60, particle.y));
       }
 
-      for (let i = 0; i < particles.length; i += 1) {
-        for (let j = i + 1; j < particles.length; j += 1) {
-          const first = particles[i];
-          const second = particles[j];
+      const grid = buildSpatialGrid();
+      const checkedPairs = new Set();
+
+      grid.forEach((cellIndexes, key) => {
+        const [cellX, cellY] = key.split(",").map(Number);
+
+        for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
+          for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
+            const neighborIndexes = grid.get(`${cellX + offsetX},${cellY + offsetY}`);
+
+            if (!neighborIndexes) {
+              continue;
+            }
+
+            cellIndexes.forEach((firstIndex) => {
+              neighborIndexes.forEach((secondIndex) => {
+                if (secondIndex <= firstIndex) {
+                  return;
+                }
+
+                const pairKey = `${firstIndex}:${secondIndex}`;
+
+                if (checkedPairs.has(pairKey)) {
+                  return;
+                }
+
+                checkedPairs.add(pairKey);
+
+                const first = particles[firstIndex];
+                const second = particles[secondIndex];
           const bothCluster = first.cluster && second.cluster;
           const midX = (first.x + second.x) / 2;
           const midY = (first.y + second.y) / 2;
@@ -167,8 +218,11 @@ export default function ParticleNetwork() {
             context.stroke();
             context.shadowBlur = 0;
           }
+              });
+            });
+          }
         }
-      }
+      });
 
       particles.forEach((particle) => {
         const mouseDistance = Math.hypot(particle.x - mouse.x, particle.y - mouse.y);
@@ -188,7 +242,7 @@ export default function ParticleNetwork() {
         context.shadowBlur = 0;
       });
 
-      if (!motionQuery.matches) {
+      if (!motionQuery.matches && !isPaused) {
         mouse.vx *= 0.82;
         mouse.vy *= 0.82;
         animationFrame = requestAnimationFrame(draw);
@@ -198,7 +252,7 @@ export default function ParticleNetwork() {
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = width * pixelRatio;
       canvas.height = height * pixelRatio;
       canvas.style.width = `${width}px`;
@@ -215,10 +269,16 @@ export default function ParticleNetwork() {
         ...Array.from({ length: particleCount.field }, () => createParticle(width, height)),
       ];
       cancelAnimationFrame(animationFrame);
-      draw();
+      if (!isPaused) {
+        draw();
+      }
     };
 
     const handleMouseMove = (event) => {
+      if (isPaused) {
+        return;
+      }
+
       mouse.vx = event.clientX - mouse.x;
       mouse.vy = event.clientY - mouse.y;
       mouse.x = event.clientX;
@@ -232,10 +292,24 @@ export default function ParticleNetwork() {
       mouse.vy = 0;
     };
 
+    const handleVisibilityChange = () => {
+      isPaused = document.hidden;
+
+      if (isPaused) {
+        cancelAnimationFrame(animationFrame);
+      } else if (!motionQuery.matches) {
+        startedAt = performance.now();
+        animationFrame = requestAnimationFrame(draw);
+      } else {
+        draw();
+      }
+    };
+
     resize();
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     motionQuery.addEventListener("change", resize);
 
     return () => {
@@ -243,6 +317,7 @@ export default function ParticleNetwork() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       motionQuery.removeEventListener("change", resize);
     };
   }, []);
