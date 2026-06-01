@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Link, Route, Routes, useParams } from "react-router-dom";
+import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
 import ParticleNetwork from "./ParticleNetwork";
 import {
   Server,
@@ -19,6 +19,7 @@ import cs1Thumbnail from "./assets/case-studies/CS1-thumbnail.png";
 import cs2Thumbnail from "./assets/case-studies/CS2-thumbnail.png";
 import cs3Thumbnail from "./assets/case-studies/CS3-thumbnail.png";
 import milestoneArchitecture from "./assets/case-studies/milestone-architecture.png";
+import cs1SummaryBanner from "./assets/case-studies/cs1-summary-banner.png";
 
 const techCards = [
   { label: "Milestone XProtect", icon: Video },
@@ -115,13 +116,33 @@ const unifiedVideoFocusAreas = [
   "Distributed Facilities",
 ];
 
+const backLinkClass =
+  "inline-flex rounded-full border border-red-400/50 px-5 py-2 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white";
+
+function ScrollToHash() {
+  const { hash, pathname } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      requestAnimationFrame(() => {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+      });
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [hash, pathname]);
+
+  return null;
+}
+
 function UnifiedVideoPlatformPage({ caseStudy }) {
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
-      <article className="mx-auto max-w-4xl">
+      <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
         <Link
           to="/"
-          className="inline-flex rounded-full border border-red-400/50 px-5 py-2 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+          className={backLinkClass}
         >
           Back to Portfolio
         </Link>
@@ -162,6 +183,18 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
                 modernizing it becomes increasingly difficult.
               </p>
             </div>
+            <figure className="mt-8">
+              <img
+                src={cs1SummaryBanner}
+                alt="Executive-level view of surveillance fragmentation, operational risk, and limited visibility"
+                className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+              />
+              <figcaption className="mt-3 text-sm leading-6 text-gray-500">
+                Executive-level view of surveillance fragmentation, operational
+                risk, and limited visibility across a distributed enterprise
+                environment.
+              </figcaption>
+            </figure>
           </section>
 
           <section>
@@ -275,6 +308,10 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
             </div>
           </section>
         </div>
+
+        <Link to="/" className={`${backLinkClass} mt-12`}>
+          Back to Portfolio
+        </Link>
       </article>
     </section>
   );
@@ -313,12 +350,12 @@ function CaseStudyPage() {
 
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-6xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
         <Link
           to="/"
-          className="inline-flex rounded-full border border-red-400/50 px-5 py-2 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+          className={backLinkClass}
         >
-          Back to Home
+          Back to Portfolio
         </Link>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
@@ -369,6 +406,10 @@ function CaseStudyPage() {
             </div>
           </article>
         </div>
+
+        <Link to="/" className={`${backLinkClass} mt-12`}>
+          Back to Portfolio
+        </Link>
       </div>
     </section>
   );
@@ -389,6 +430,7 @@ function App() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0f0f10] text-white">
+      <ScrollToHash />
       <div className="ambient-background pointer-events-none fixed inset-0 z-0">
         <ParticleNetwork />
       </div>
@@ -401,10 +443,10 @@ function App() {
               : "pointer-events-none -translate-y-full opacity-0"
           }`}
         >
-          <a href="#home" className="transition hover:text-red-400">Home</a>
-          <a href="#about" className="transition hover:text-red-400">About</a>
-          <a href="#case-studies" className="transition hover:text-red-400">Case Studies</a>
-          <a href="#contact" className="transition hover:text-red-400">Contact</a>
+          <Link to="/" className="transition hover:text-red-400">Home</Link>
+          <Link to="/#about" className="transition hover:text-red-400">About</Link>
+          <Link to="/#case-studies" className="transition hover:text-red-400">Case Studies</Link>
+          <Link to="/#contact" className="transition hover:text-red-400">Contact</Link>
         </nav>
 
         <Routes>
