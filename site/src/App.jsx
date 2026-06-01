@@ -123,24 +123,14 @@ function App() {
         </nav>
 
         <section id="home" className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-          <p className="mb-5 text-sm uppercase tracking-[0.35em] text-red-400">
-            Enterprise Systems & Infrastructure
-          </p>
-
           <h1 className="max-w-5xl text-5xl font-light leading-tight md:text-7xl">
             Hello, I&apos;m <span className="text-red-400">Chris</span>.
             <br />
             I modernize complex security technology platforms.
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-gray-300">
-            I work across infrastructure, physical security systems, and
-            enterprise operations to turn real-world business needs into
-            practical technical solutions.
-          </p>
-
-          <a href="#case-studies" className="mt-10 border border-red-400 px-8 py-3 text-red-400 transition hover:bg-red-400 hover:text-white">
-            View my work ↓
+          <a href="#about" className="mt-12 border border-red-400 px-8 py-3 text-red-400 transition hover:bg-red-400 hover:text-white">
+            Learn More ↓
           </a>
         </section>
 
@@ -237,7 +227,7 @@ function App() {
                   className="grid overflow-hidden rounded-2xl border border-red-400/20 bg-[#18181a]/70 shadow-[0_0_45px_rgba(248,113,113,0.08)] backdrop-blur md:grid-cols-2"
                 >
                   <div
-                    className={`relative flex min-h-72 items-center justify-center overflow-hidden bg-[#111113] p-4 ${
+                    className={`relative flex min-h-[24rem] items-center justify-center overflow-hidden bg-[#111113] p-4 md:min-h-[30rem] xl:min-h-[34rem] ${
                       imageFirst ? "md:order-1" : "md:order-2"
                     }`}
                   >
@@ -245,7 +235,7 @@ function App() {
                     <img
                       src={caseStudy.image}
                       alt={caseStudy.title}
-                      className="relative h-full min-h-64 w-full rounded-xl border border-red-400/25 bg-[#0f0f10]/70 object-contain shadow-[0_0_55px_rgba(248,113,113,0.2)]"
+                      className="relative h-full min-h-[22rem] w-full rounded-xl border border-red-400/25 bg-[#0f0f10]/70 object-contain object-center shadow-[0_0_55px_rgba(248,113,113,0.2)] md:min-h-[28rem] xl:min-h-[32rem]"
                     />
                   </div>
 
