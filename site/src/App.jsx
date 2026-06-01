@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Link, Route, Routes, useParams } from "react-router-dom";
 import ParticleNetwork from "./ParticleNetwork";
 import {
   Server,
@@ -17,6 +18,7 @@ import profilePhoto from "./assets/profile.png";
 import cs1Thumbnail from "./assets/case-studies/CS1-thumbnail.png";
 import cs2Thumbnail from "./assets/case-studies/CS2-thumbnail.png";
 import cs3Thumbnail from "./assets/case-studies/CS3-thumbnail.png";
+import milestoneArchitecture from "./assets/case-studies/milestone-architecture.png";
 
 const techCards = [
   { label: "Milestone XProtect", icon: Video },
@@ -35,23 +37,41 @@ const techCards = [
 
 const caseStudies = [
   {
+    slug: "unified-video-platform",
     title: "Transforming Distributed Video Systems into a Unified Platform",
     image: cs1Thumbnail,
     description:
       "Modernized a fragmented video surveillance environment by consolidating multiple legacy systems into a centralized enterprise platform. The initiative improved operational consistency, simplified administration, and established a scalable foundation for future growth across geographically distributed facilities.",
+    focusAreas: [
+      "Video management systems",
+      "Enterprise platform consolidation",
+      "Distributed facility operations",
+    ],
   },
   {
+    slug: "video-analytics",
     title: "Operational Intelligence Through Video Analytics",
     image: cs2Thumbnail,
     description:
       "Leveraged video analytics to transform surveillance data into actionable business intelligence. By measuring occupancy, dwell time, and movement patterns, the solution provided operational insights that improved visibility, decision-making, and guest experience within a luxury hospitality environment.",
+    focusAreas: [
+      "Video analytics",
+      "Operational intelligence",
+      "Hospitality operations",
+    ],
   },
   {
+    slug: "modern-gsoc",
     title:
       "Modernizing the GSOC: Enhancing Situational Awareness Through Automated Video Workflows",
     image: cs3Thumbnail,
     description:
       "Designed automated workflows that transformed security events into actionable operator intelligence. By integrating alerts, video, mapping, and response tools into a unified operating picture, the project improved situational awareness and accelerated decision-making within the security operations center.",
+    focusAreas: [
+      "GSOC operations",
+      "Automated workflows",
+      "Situational awareness",
+    ],
   },
 ];
 
@@ -83,6 +103,276 @@ const skillCardIn = {
   hidden: { opacity: 0, y: 14 },
   visible: { opacity: 1, y: 0 },
 };
+
+const unifiedVideoFocusAreas = [
+  "Milestone XProtect",
+  "Enterprise Video Management",
+  "Platform Consolidation",
+  "Recording Server Architecture",
+  "Cybersecurity Alignment",
+  "Centralized Administration",
+  "Lifecycle Management",
+  "Distributed Facilities",
+];
+
+function UnifiedVideoPlatformPage({ caseStudy }) {
+  return (
+    <section className="min-h-screen px-6 py-24 md:px-12">
+      <article className="mx-auto max-w-4xl">
+        <Link
+          to="/"
+          className="inline-flex rounded-full border border-red-400/50 px-5 py-2 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+        >
+          Back to Portfolio
+        </Link>
+
+        <header className="mt-12">
+          <h1 className="text-4xl font-bold leading-tight md:text-6xl">
+            Transforming Distributed Video Systems into a Unified Platform
+          </h1>
+          <p className="mt-6 text-xl leading-8 text-gray-300">
+            How fragmented surveillance deployments can evolve into a
+            centralized enterprise video platform.
+          </p>
+        </header>
+
+        <div className="mt-14 space-y-12 text-lg leading-8 text-gray-300">
+          <section>
+            <h2 className="text-3xl font-bold text-white">Executive Summary</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                Imagine you&apos;re responsible for physical security across a
+                global manufacturing enterprise. Over the years, acquisitions,
+                regional preferences, and independent projects have left you
+                with a patchwork of surveillance systems: different
+                manufacturers, different management interfaces, proprietary
+                hardware, standalone recorders, and limited centralized
+                visibility.
+              </p>
+              <p>
+                What was once considered a building system has quietly become
+                critical enterprise infrastructure.
+              </p>
+              <p>
+                At the same time, cybersecurity teams are increasing scrutiny.
+                Unsupported operating systems, aging hardware, inconsistent
+                patching practices, and limited visibility into system health
+                create growing operational and security risks. Maintaining the
+                environment becomes increasingly expensive, while expanding or
+                modernizing it becomes increasingly difficult.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Challenge</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                The existing environment consisted of multiple independent video
+                surveillance systems distributed across geographically separated
+                facilities. Each site operated as its own island, often with
+                different hardware standards, software versions, recording
+                architectures, and operational procedures.
+              </p>
+              <p>This fragmentation created several challenges:</p>
+              <ul className="ml-6 list-disc space-y-2">
+                <li>Limited enterprise-wide visibility</li>
+                <li>Inconsistent cybersecurity posture</li>
+                <li>Aging proprietary hardware</li>
+                <li>Complex support and maintenance requirements</li>
+                <li>Difficult system expansion and modernization</li>
+                <li>Lack of centralized administration and governance</li>
+              </ul>
+              <p>
+                As the environment continued to grow, the organization needed a
+                strategy that treated video surveillance as enterprise
+                infrastructure rather than a collection of standalone building
+                systems.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Approach</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                The modernization strategy centered around standardization,
+                consolidation, and platform unification.
+              </p>
+              <p>
+                The selected platform was Milestone XProtect, an open-platform
+                video management system capable of supporting a wide range of
+                camera manufacturers and legacy devices. This open architecture
+                enabled existing investments to be preserved while providing a
+                clear migration path away from proprietary solutions.
+              </p>
+
+              <figure className="py-3">
+                <img
+                  src={milestoneArchitecture}
+                  alt="Conceptual modernization architecture for a centralized enterprise video platform"
+                  className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                />
+                <figcaption className="mt-3 text-sm leading-6 text-gray-500">
+                  Conceptual modernization architecture illustrating the
+                  transition from fragmented site-level video systems to a
+                  centralized enterprise video platform.
+                </figcaption>
+              </figure>
+
+              <p>
+                Legacy recording appliances and NVRs were systematically
+                replaced with enterprise-grade Dell PowerEdge recording servers
+                designed for resiliency, scalability, and long-term
+                supportability.
+              </p>
+              <p>
+                By migrating geographically distributed facilities onto a common
+                platform, the organization established centralized
+                administration, consistent operational standards, improved
+                cybersecurity alignment, standardized hardware architecture,
+                simplified support and lifecycle management, and enterprise-wide
+                visibility across locations.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Outcome</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                The result was a unified surveillance ecosystem operating as a
+                single enterprise platform rather than a collection of
+                disconnected systems.
+              </p>
+              <p>
+                Security teams gained centralized visibility and control while
+                maintaining local operational flexibility. Infrastructure became
+                easier to support, easier to secure, and easier to scale. Future
+                expansion could be accomplished using established standards
+                rather than introducing additional complexity.
+              </p>
+              <p>
+                Most importantly, the surveillance environment evolved from a
+                legacy building technology into a modern enterprise system
+                capable of supporting long-term security and operational
+                objectives.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Focus Areas</h2>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {unifiedVideoFocusAreas.map((area) => (
+                <span
+                  key={area}
+                  className="rounded-full border border-red-400/35 bg-[#18181a]/70 px-4 py-2 text-sm font-semibold text-red-300 shadow-[0_0_20px_rgba(248,113,113,0.08)] backdrop-blur"
+                >
+                  {area}
+                </span>
+              ))}
+            </div>
+          </section>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function CaseStudyPage() {
+  const { slug } = useParams();
+  const caseStudy = caseStudies.find((study) => study.slug === slug) ?? caseStudies[0];
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [slug]);
+
+  const sections = [
+    {
+      title: "Overview",
+      body: "A concise overview of the project context, business goals, and security technology environment will be added here.",
+    },
+    {
+      title: "Challenge",
+      body: "This section will outline the operational constraints, legacy platform limitations, and stakeholder needs that shaped the work.",
+    },
+    {
+      title: "Approach",
+      body: "This section will describe the technical strategy, implementation model, and cross-functional coordination behind the solution.",
+    },
+    {
+      title: "Outcome",
+      body: "This section will summarize the practical improvements, operational impact, and lessons learned from the engagement.",
+    },
+  ];
+
+  if (caseStudy.slug === "unified-video-platform") {
+    return <UnifiedVideoPlatformPage caseStudy={caseStudy} />;
+  }
+
+  return (
+    <section className="min-h-screen px-6 py-24 md:px-12">
+      <div className="mx-auto max-w-6xl">
+        <Link
+          to="/"
+          className="inline-flex rounded-full border border-red-400/50 px-5 py-2 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+        >
+          Back to Home
+        </Link>
+
+        <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div className="relative overflow-hidden rounded-2xl border border-red-400/25 bg-[#111113] p-4 shadow-[0_0_55px_rgba(248,113,113,0.16)]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(248,113,113,0.18),transparent_42%)]" />
+            <img
+              src={caseStudy.image}
+              alt={caseStudy.title}
+              className="relative w-full rounded-xl border border-red-400/20 bg-[#0f0f10]/70 object-contain shadow-[0_0_45px_rgba(248,113,113,0.14)]"
+            />
+          </div>
+
+          <div>
+            <p className="text-sm uppercase tracking-[0.35em] text-red-400">
+              Case Study
+            </p>
+            <h1 className="mt-4 text-4xl font-bold leading-tight md:text-6xl">
+              {caseStudy.title}
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-gray-300">
+              {caseStudy.description}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-14 grid gap-5 md:grid-cols-2">
+          {sections.map((section) => (
+            <article
+              key={section.title}
+              className="rounded-2xl border border-red-400/20 bg-[#18181a]/70 p-6 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur"
+            >
+              <h2 className="text-2xl font-bold">{section.title}</h2>
+              <p className="mt-4 leading-7 text-gray-300">{section.body}</p>
+            </article>
+          ))}
+
+          <article className="rounded-2xl border border-red-400/20 bg-[#18181a]/70 p-6 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur md:col-span-2">
+            <h2 className="text-2xl font-bold">Technologies / Focus Areas</h2>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {caseStudy.focusAreas.map((area) => (
+                <span
+                  key={area}
+                  className="rounded-full border border-red-400/35 px-4 py-2 text-sm font-semibold text-red-300"
+                >
+                  {area}
+                </span>
+              ))}
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function App() {
   const [showNav, setShowNav] = useState(false);
@@ -117,6 +407,11 @@ function App() {
           <a href="#contact" className="transition hover:text-red-400">Contact</a>
         </nav>
 
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
         <section id="home" className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
           <h1 className="max-w-5xl text-5xl font-light leading-tight md:text-7xl">
             Hello, I&apos;m <span className="text-red-400">Chris</span>.
@@ -248,12 +543,12 @@ function App() {
                     <p className="mt-5 text-lg leading-8 text-gray-300">
                       {caseStudy.description}
                     </p>
-                    <button
-                      type="button"
+                    <Link
+                      to={`/case-studies/${caseStudy.slug}`}
                       className="mt-8 w-fit rounded-full border border-red-400/60 px-6 py-3 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white"
                     >
                       Learn More
-                    </button>
+                    </Link>
                   </div>
                 </article>
               );
@@ -310,6 +605,11 @@ function App() {
             Chris Pawelczyk &copy; 2026
           </footer>
         </section>
+              </>
+            }
+          />
+          <Route path="/case-studies/:slug" element={<CaseStudyPage />} />
+        </Routes>
       </div>
     </main>
   );
