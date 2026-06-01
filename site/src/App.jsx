@@ -6,14 +6,12 @@ import {
   ShieldCheck,
   Video,
   KeyRound,
-  RadioTower,
   Cloud,
   Terminal,
   Workflow,
   MonitorCog,
   Network,
   TicketCheck,
-  Wrench,
 } from "lucide-react";
 import profilePhoto from "./assets/profile.png";
 import cs1Thumbnail from "./assets/case-studies/CS1-thumbnail.png";
@@ -25,14 +23,14 @@ const techCards = [
   { label: "C•CURE 9000", icon: KeyRound },
   { label: "Windows Server", icon: Server },
   { label: "Active Directory", icon: ShieldCheck },
-  { label: "GSOC Operations", icon: MonitorCog },
-  { label: "ServiceNow ITSM", icon: TicketCheck },
   { label: "PowerShell", icon: Terminal },
-  { label: "Armis Centrix", icon: Wrench },
-  { label: "Vulnerability Remediation", icon: ShieldCheck },
-  { label: "Network Coordination", icon: Network },
+  { label: "ServiceNow ITSM", icon: TicketCheck },
+  { label: "Network Infrastructure", icon: Network },
   { label: "Cloud-Hosted Platforms", icon: Cloud },
   { label: "Platform Modernization", icon: Workflow },
+  { label: "GSOC Operations", icon: MonitorCog },
+  { label: "Video Analytics", icon: Video },
+  { label: "Vulnerability Remediation", icon: ShieldCheck },
 ];
 
 const caseStudies = [
@@ -134,9 +132,10 @@ function App() {
           </a>
         </section>
 
-        <section id="about" className="min-h-screen px-6 py-28 md:px-12">
+        <section className="min-h-screen px-6 pb-20 pt-14 md:px-12 md:pb-24 md:pt-16">
           <motion.h2
-            className="text-center text-5xl font-bold md:text-6xl"
+            id="about"
+            className="scroll-mt-24 text-center text-5xl font-bold md:text-6xl"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.3 }}
@@ -147,7 +146,7 @@ function App() {
             <span className="mx-auto mt-1 block h-3 w-36 bg-red-400" />
           </motion.h2>
 
-          <div className="mx-auto mt-20 grid max-w-7xl gap-14 md:grid-cols-[0.9fr_1.2fr] md:items-center">
+          <div className="mx-auto mt-14 grid max-w-7xl gap-14 md:grid-cols-[0.9fr_1.2fr] md:items-start">
             <div className="text-center md:text-left">
               <motion.img
                 src={profilePhoto}
@@ -169,16 +168,18 @@ function App() {
               >
                 <h3 className="mt-10 text-3xl font-bold md:text-4xl">Chris Pawelczyk</h3>
                 <p className="mt-2 text-red-400">
-                  Enterprise Systems & Infrastructure Professional
+                  Enterprise Security Systems & Infrastructure
                 </p>
 
-                <p className="mt-6 max-w-xl text-lg leading-8 text-gray-300">
-                  I work on enterprise security technology platforms where
-                  infrastructure, operations, and physical security systems meet.
-                  My background includes video surveillance, access control,
-                  platform modernization, GSOC operations, vulnerability
-                  remediation, and cross-functional enterprise deployments.
-                </p>
+                <div className="mt-6 max-w-xl space-y-5 text-lg leading-8 text-gray-300">
+                  <p>
+                    I work at the intersection of security technology,
+                    infrastructure, and enterprise operations, with experience
+                    across video management systems, access control platforms,
+                    GSOC workflows, and the supporting infrastructure that keeps
+                    critical systems running at scale.
+                  </p>
+                </div>
               </motion.div>
             </div>
 
@@ -211,7 +212,7 @@ function App() {
           </div>
         </section>
 
-        <section id="case-studies" className="min-h-screen px-6 py-28 md:px-12">
+        <section id="case-studies" className="min-h-screen scroll-mt-24 px-6 py-28 md:px-12">
           <h2 className="text-center text-5xl font-bold md:text-6xl">
             Case Studies
             <span className="mx-auto mt-1 block h-3 w-52 bg-red-400" />
@@ -268,7 +269,7 @@ function App() {
 
         <section
           id="contact"
-          className="flex min-h-screen flex-col justify-between px-6 py-28 md:px-12"
+          className="flex min-h-screen scroll-mt-24 flex-col justify-between px-6 py-28 md:px-12"
         >
           <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center text-center">
             <p className="text-sm uppercase tracking-[0.35em] text-red-400">
