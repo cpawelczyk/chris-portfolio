@@ -36,25 +36,22 @@ const techCards = [
 const caseStudies = [
   {
     title: "Transforming Distributed Video Systems into a Unified Platform",
-    tag: "VIDEO PLATFORM CONSOLIDATION",
     image: cs1Thumbnail,
     description:
-      "A placeholder overview for consolidating distributed video systems into a unified enterprise platform. This case study will later detail the operational goals, architecture decisions, and measurable improvements.",
+      "Modernized a fragmented video surveillance environment by consolidating multiple legacy systems into a centralized enterprise platform. The initiative improved operational consistency, simplified administration, and established a scalable foundation for future growth across geographically distributed facilities.",
   },
   {
     title: "Operational Intelligence Through Video Analytics",
-    tag: "VIDEO ANALYTICS / HOSPITALITY OPERATIONS",
     image: cs2Thumbnail,
     description:
-      "A placeholder description for applying video analytics to improve visibility across hospitality operations. This section can later cover use cases, deployment approach, and practical outcomes.",
+      "Leveraged video analytics to transform surveillance data into actionable business intelligence. By measuring occupancy, dwell time, and movement patterns, the solution provided operational insights that improved visibility, decision-making, and guest experience within a luxury hospitality environment.",
   },
   {
     title:
       "Modernizing the GSOC: Enhancing Situational Awareness Through Automated Video Workflows",
-    tag: "GSOC OPERATIONS / AUTOMATED WORKFLOWS",
     image: cs3Thumbnail,
     description:
-      "A placeholder summary for a GSOC modernization initiative focused on faster response and clearer operator context. Future content can describe workflow automation, alert handling, and stakeholder impact.",
+      "Designed automated workflows that transformed security events into actionable operator intelligence. By integrating alerts, video, mapping, and response tools into a unified operating picture, the project improved situational awareness and accelerated decision-making within the security operations center.",
   },
 ];
 
@@ -245,10 +242,7 @@ function App() {
                       imageFirst ? "md:order-2" : "md:order-1"
                     }`}
                   >
-                    <p className="text-sm uppercase tracking-[0.3em] text-red-400">
-                      {caseStudy.tag}
-                    </p>
-                    <h3 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
+                    <h3 className="text-3xl font-bold leading-tight md:text-4xl">
                       {caseStudy.title}
                     </h3>
                     <p className="mt-5 text-lg leading-8 text-gray-300">
