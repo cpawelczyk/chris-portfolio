@@ -46,7 +46,7 @@ const caseStudies = [
     title: "Transforming Distributed Video Systems into a Unified Platform",
     image: cs1Thumbnail,
     description:
-      "Modernized a fragmented video surveillance environment by consolidating multiple legacy systems into a centralized enterprise platform. The initiative improved operational consistency, simplified administration, and established a scalable foundation for future growth across geographically distributed facilities.",
+      "Multiple legacy systems. Limited visibility. Growing risk. See how a fragmented surveillance environment was transformed into a centralized enterprise platform.",
     focusAreas: [
       "Video management systems",
       "Enterprise platform consolidation",
@@ -58,7 +58,7 @@ const caseStudies = [
     title: "Operational Intelligence Through Video Analytics",
     image: cs2Thumbnail,
     description:
-      "Leveraged video analytics to transform surveillance data into actionable business intelligence. By measuring occupancy, dwell time, and movement patterns, the solution provided operational insights that improved visibility, decision-making, and guest experience within a luxury hospitality environment.",
+      "Valuable operational data was hiding in plain sight. Discover how video analytics turned everyday guest activity into actionable business intelligence.",
     focusAreas: [
       "Video analytics",
       "Operational intelligence",
@@ -68,10 +68,10 @@ const caseStudies = [
   {
     slug: "modern-gsoc",
     title:
-      "Modernizing the GSOC: Enhancing Situational Awareness Through Automated Video Workflows",
+      "Modernizing the GSOC: Automated Video Workflows for Situational Awareness",
     image: cs3Thumbnail,
     description:
-      "Designed automated workflows that transformed security events into actionable operator intelligence. By integrating alerts, video, mapping, and response tools into a unified operating picture, the project improved situational awareness and accelerated decision-making within the security operations center.",
+      "When seconds matter, operators need context—not more screens. Learn how event-driven workflows reduced information overload and enabled coordinated response.",
     focusAreas: [
       "GSOC operations",
       "Automated workflows",
@@ -167,7 +167,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
     <section className="min-h-screen px-6 py-24 md:px-12">
       <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
         <Link
-          to="/"
+          to="/#case-studies"
           className={backLinkClass}
         >
           Back to Portfolio
@@ -177,7 +177,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
           <h1 className="text-4xl font-bold leading-tight md:text-6xl">
             Transforming Distributed Video Systems into a Unified Platform
           </h1>
-          <p className="mt-6 text-xl leading-8 text-gray-300">
+          <p className="mt-6 text-xl italic leading-8 text-gray-300">
             How fragmented surveillance deployments can evolve into a
             centralized enterprise video platform.
           </p>
@@ -188,7 +188,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
             <h2 className="text-3xl font-bold text-white">Executive Summary</h2>
             <div className="mt-5 space-y-5">
               <p>
-                Imagine you&apos;re responsible for physical security across a
+                You&apos;re a senior security executive, responsible for physical security across a
                 global manufacturing enterprise. Over the years, acquisitions,
                 regional preferences, and independent projects have left you
                 with a patchwork of surveillance systems: different
@@ -201,7 +201,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
                 critical enterprise infrastructure.
               </p>
               <p>
-                At the same time, cybersecurity teams are increasing scrutiny.
+                At the same time, your cybersecurity department is increasing scrutiny.
                 Unsupported operating systems, aging hardware, inconsistent
                 patching practices, and limited visibility into system health
                 create growing operational and security risks. Maintaining the
@@ -335,7 +335,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
           </section>
         </div>
 
-        <Link to="/" className={`${backLinkClass} mt-12`}>
+        <Link to="/#case-studies" className={`${backLinkClass} mt-12`}>
           Back to Portfolio
         </Link>
       </article>
@@ -347,7 +347,7 @@ function VideoAnalyticsPage({ caseStudy }) {
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
       <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
-        <Link to="/" className={backLinkClass}>
+        <Link to="/#case-studies" className={backLinkClass}>
           Back to Portfolio
         </Link>
 
@@ -355,7 +355,7 @@ function VideoAnalyticsPage({ caseStudy }) {
           <h1 className="text-4xl font-bold leading-tight md:text-6xl">
             Operational Intelligence Through Video Analytics
           </h1>
-          <p className="mt-6 text-xl leading-8 text-gray-300">
+          <p className="mt-6 text-xl italic leading-8 text-gray-300">
             Using existing surveillance infrastructure to generate business
             insights in a luxury hospitality environment.
           </p>
@@ -519,7 +519,7 @@ function VideoAnalyticsPage({ caseStudy }) {
           </section>
         </div>
 
-        <Link to="/" className={`${backLinkClass} mt-12`}>
+        <Link to="/#case-studies" className={`${backLinkClass} mt-12`}>
           Back to Portfolio
         </Link>
       </article>
@@ -531,16 +531,16 @@ function ModernGsocPage() {
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
       <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
-        <Link to="/" className={backLinkClass}>
+        <Link to="/#case-studies" className={backLinkClass}>
           Back to Portfolio
         </Link>
 
         <header className="mt-12">
           <h1 className="text-4xl font-bold leading-tight md:text-6xl">
-            Modernizing the GSOC: Enhancing Situational Awareness Through
-            Automated Video Workflows
+            Modernizing the GSOC: Automated Video Workflows for Situational
+            Awareness
           </h1>
-          <p className="mt-6 text-xl leading-8 text-gray-300">
+          <p className="mt-6 text-xl italic leading-8 text-gray-300">
             Using event-driven workflows to bring the right operational context
             to security operators when seconds matter.
           </p>
@@ -698,7 +698,7 @@ function ModernGsocPage() {
           </section>
         </div>
 
-        <Link to="/" className={`${backLinkClass} mt-12`}>
+        <Link to="/#case-studies" className={`${backLinkClass} mt-12`}>
           Back to Portfolio
         </Link>
       </article>
@@ -749,7 +749,7 @@ function CaseStudyPage() {
     <section className="min-h-screen px-6 py-24 md:px-12">
       <div className="mx-auto max-w-6xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
         <Link
-          to="/"
+          to="/#case-studies"
           className={backLinkClass}
         >
           Back to Portfolio
@@ -804,7 +804,7 @@ function CaseStudyPage() {
           </article>
         </div>
 
-        <Link to="/" className={`${backLinkClass} mt-12`}>
+        <Link to="/#case-studies" className={`${backLinkClass} mt-12`}>
           Back to Portfolio
         </Link>
       </div>
@@ -943,8 +943,11 @@ function App() {
           </div>
         </section>
 
-        <section id="case-studies" className="min-h-screen scroll-mt-24 px-6 py-28 md:px-12">
-          <h2 className="text-center text-5xl font-bold md:text-6xl">
+        <section className="min-h-screen px-6 py-28 md:px-12">
+          <h2
+            id="case-studies"
+            className="scroll-mt-24 text-center text-5xl font-bold md:text-6xl"
+          >
             Case Studies
             <span className="mx-auto mt-1 block h-3 w-52 bg-red-400" />
           </h2>
