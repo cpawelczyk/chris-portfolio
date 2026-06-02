@@ -20,6 +20,10 @@ import cs2Thumbnail from "./assets/case-studies/CS2-thumbnail.png";
 import cs3Thumbnail from "./assets/case-studies/CS3-thumbnail.png";
 import milestoneArchitecture from "./assets/case-studies/milestone-architecture.png";
 import cs1SummaryBanner from "./assets/case-studies/cs1-summary-banner.png";
+import cs2SummaryBanner from "./assets/case-studies/cs2-summary-banner.png";
+import cs2ApproachPhoto from "./assets/case-studies/cs2-approach-photo.png";
+import cs3SummaryBanner from "./assets/case-studies/cs3-summary-banner.png";
+import cs3ApproachPhoto from "./assets/case-studies/cs3-approach-photo.png";
 
 const techCards = [
   { label: "Milestone XProtect", icon: Video },
@@ -114,6 +118,28 @@ const unifiedVideoFocusAreas = [
   "Centralized Administration",
   "Lifecycle Management",
   "Distributed Facilities",
+];
+
+const videoAnalyticsFocusAreas = [
+  "Axis Object Analytics",
+  "Milestone XProtect",
+  "Operational Intelligence",
+  "Visitor Analytics",
+  "Dwell Time Monitoring",
+  "Traffic Flow Analysis",
+  "Queue Management",
+  "Guest Experience Optimization",
+];
+
+const modernGsocFocusAreas = [
+  "Milestone XProtect Smart Wall",
+  "Milestone Smart Map",
+  "Event-Driven Workflows",
+  "Security Operations Centers",
+  "Situational Awareness",
+  "Incident Response",
+  "Video Operations",
+  "Operational Automation",
 ];
 
 const backLinkClass =
@@ -317,6 +343,369 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
   );
 }
 
+function VideoAnalyticsPage({ caseStudy }) {
+  return (
+    <section className="min-h-screen px-6 py-24 md:px-12">
+      <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
+        <Link to="/" className={backLinkClass}>
+          Back to Portfolio
+        </Link>
+
+        <header className="mt-12">
+          <h1 className="text-4xl font-bold leading-tight md:text-6xl">
+            Operational Intelligence Through Video Analytics
+          </h1>
+          <p className="mt-6 text-xl leading-8 text-gray-300">
+            Using existing surveillance infrastructure to generate business
+            insights in a luxury hospitality environment.
+          </p>
+        </header>
+
+        <div className="mt-14 space-y-12 text-lg leading-8 text-gray-300">
+          <section>
+            <h2 className="text-3xl font-bold text-white">Executive Summary</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                You&apos;re the Director of Operations at a luxury five-star
+                resort.
+              </p>
+              <p>
+                When guests are paying a premium for their experience,
+                expectations are exceptionally high. Long wait times, crowded
+                spaces, or operational bottlenecks can quickly impact guest
+                satisfaction. Every decision matters, and the best decisions are
+                driven by reliable data.
+              </p>
+              <p>
+                Hospitality leaders spend significant time looking for ways to
+                improve operations utilizing data-driven insights. Reservation
+                systems, point-of-sale platforms, guest surveys, and occupancy
+                reports all provide valuable information. Yet many of the most
+                important questions remain difficult to answer.
+              </p>
+              <p>
+                How long are guests waiting in common areas? Which amenities
+                experience the highest utilization? When do traffic patterns
+                change throughout the day? Where are operational bottlenecks
+                forming before they become guest complaints?
+              </p>
+              <p>The answer was already in place.</p>
+              <p>
+                The resort&apos;s existing video surveillance infrastructure
+                provided a unique opportunity to capture operational insights
+                that traditional business systems could not.
+              </p>
+            </div>
+
+            <figure className="mt-8">
+              <img
+                src={cs2SummaryBanner}
+                alt="Operational intelligence summary for video analytics in hospitality operations"
+                className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+              />
+            </figure>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Challenge</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                The organization wanted to improve guest experience through
+                data-driven decision making, but lacked visibility into how
+                guests were actually interacting with physical spaces throughout
+                the property.
+              </p>
+              <p>
+                Traditional business systems could report reservations,
+                transactions, and occupancy trends, but they could not provide
+                meaningful insight into guest movement, traffic flow, queue
+                formation, or space utilization.
+              </p>
+              <p>
+                Without reliable data, operational improvements often relied on
+                assumptions rather than measurable trends.
+              </p>
+              <p>
+                The challenge was to transform existing surveillance
+                infrastructure into a source of actionable business intelligence
+                without introducing significant new hardware or operational
+                complexity.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Approach</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                Using Axis cameras integrated with the Milestone XProtect
+                platform, the solution leveraged Axis Object Analytics to
+                generate operational intelligence from existing camera
+                deployments.
+              </p>
+              <p>
+                Rather than focusing solely on security events, analytics were
+                configured to measure and evaluate patterns occurring throughout
+                the resort environment.
+              </p>
+              <p>The platform provided visibility into:</p>
+              <ul className="ml-6 list-disc space-y-2">
+                <li>Visitor counts</li>
+                <li>Dwell time analysis</li>
+                <li>Traffic flow patterns</li>
+                <li>Peak and off-peak utilization periods</li>
+                <li>Queue formation and congestion trends</li>
+              </ul>
+              <p>
+                This transformed the surveillance platform from a passive
+                security system into an active source of operational insight.
+              </p>
+              <p>
+                By utilizing infrastructure that was already deployed throughout
+                the property, the organization was able to generate meaningful
+                analytics without requiring large-scale technology investments.
+              </p>
+
+              <figure className="py-3">
+                <img
+                  src={cs2ApproachPhoto}
+                  alt="Video analytics approach for measuring guest movement and operational patterns"
+                  className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                />
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Outcome</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                The resulting analytics provided operational teams with a
+                clearer understanding of how guests interacted with resort
+                spaces throughout the day.
+              </p>
+              <p>
+                Instead of relying solely on observations and assumptions,
+                leadership gained measurable data that could be used to improve
+                staffing decisions, optimize space utilization, identify
+                operational bottlenecks, and enhance the overall guest
+                experience.
+              </p>
+              <p>
+                Most importantly, the project demonstrated that modern video
+                platforms can deliver value far beyond traditional security
+                applications.
+              </p>
+              <p>
+                The same infrastructure responsible for protecting people and
+                property became a strategic source of business intelligence
+                capable of supporting operational excellence across the resort.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Focus Areas</h2>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {videoAnalyticsFocusAreas.map((area) => (
+                <span
+                  key={area}
+                  className="rounded-full border border-red-400/35 bg-[#18181a]/70 px-4 py-2 text-sm font-semibold text-red-300 shadow-[0_0_20px_rgba(248,113,113,0.08)] backdrop-blur"
+                >
+                  {area}
+                </span>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <Link to="/" className={`${backLinkClass} mt-12`}>
+          Back to Portfolio
+        </Link>
+      </article>
+    </section>
+  );
+}
+
+function ModernGsocPage() {
+  return (
+    <section className="min-h-screen px-6 py-24 md:px-12">
+      <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
+        <Link to="/" className={backLinkClass}>
+          Back to Portfolio
+        </Link>
+
+        <header className="mt-12">
+          <h1 className="text-4xl font-bold leading-tight md:text-6xl">
+            Modernizing the GSOC: Enhancing Situational Awareness Through
+            Automated Video Workflows
+          </h1>
+          <p className="mt-6 text-xl leading-8 text-gray-300">
+            Using event-driven workflows to bring the right operational context
+            to security operators when seconds matter.
+          </p>
+        </header>
+
+        <div className="mt-14 space-y-12 text-lg leading-8 text-gray-300">
+          <section>
+            <h2 className="text-3xl font-bold text-white">Executive Summary</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                You&apos;re responsible for a Global Security Operations Center
+                (GSOC) supporting dozens of facilities across an enterprise.
+                Every day, operators are expected to monitor alarms, access
+                control events, live video, intercom calls, and critical
+                incidents occurring across geographically distributed locations.
+              </p>
+              <p>
+                The challenge isn&apos;t a lack of information. It&apos;s getting
+                the right information to the right people when seconds matter.
+              </p>
+              <p>
+                When an incident occurs, operators often find themselves
+                scrambling between systems to locate camera views, site maps,
+                procedures, and supporting intelligence before they can even
+                begin responding. Valuable time is spent navigating technology
+                instead of managing the event itself.
+              </p>
+              <p>
+                The goal is no longer simply monitoring security systems. The
+                goal is creating a unified operating picture that allows
+                operators to understand what&apos;s happening and respond
+                effectively in real time.
+              </p>
+            </div>
+            <figure className="mt-8">
+              <img
+                src={cs3SummaryBanner}
+                alt="Operator-facing view of information overload during security operations"
+                className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+              />
+              <figcaption className="mt-3 text-sm leading-6 text-gray-500">
+                Operator-facing view of information overload during
+                time-sensitive security operations.
+              </figcaption>
+            </figure>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Challenge</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                The existing GSOC environment relied heavily on manual
+                workflows. Operators were required to assemble information
+                themselves whenever an event occurred, often moving between
+                multiple applications, camera views, maps, and supporting
+                resources to establish situational awareness.
+              </p>
+              <p>
+                Even routine activities introduced inefficiencies. Different
+                operator shifts required different video wall layouts,
+                priorities, and monitoring strategies. Critical incidents
+                demanded rapid access to cameras, floor plans, procedures, and
+                intelligence sources, but much of this context had to be
+                gathered manually during the event itself.
+              </p>
+              <p>
+                As the enterprise expanded, the operational burden on the GSOC
+                continued to increase. Operators were spending more time
+                managing systems and less time managing incidents.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Approach</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                Using Milestone XProtect Smart Wall, Smart Map, automated rules,
+                and event-driven workflows, we redesigned how information was
+                presented to operators.
+              </p>
+              <p>
+                Rather than requiring operators to search for information, the
+                system was designed to bring information directly to them.
+              </p>
+              <p>
+                Video walls automatically adjusted based on operational needs,
+                including scheduled layouts aligned to shift responsibilities.
+                For higher-priority events, automated workflows could
+                dynamically populate Smart Wall with curated camera views
+                relevant to the incident.
+              </p>
+              <p>
+                Additional context was delivered alongside video, including
+                interactive Smart Maps with camera overlays, embedded web
+                resources, operational dashboards, and other intelligence
+                sources required to support decision-making.
+              </p>
+              <p>
+                The result was a workflow-driven operating environment where
+                security events automatically triggered the information
+                operators needed most.
+              </p>
+
+              <figure className="py-3">
+                <img
+                  src={cs3ApproachPhoto}
+                  alt="Event-driven workflow for automated Smart Wall layouts and operator context"
+                  className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                />
+                <figcaption className="mt-3 text-sm leading-6 text-gray-500">
+                  Event-driven workflow showing how critical events can trigger
+                  automated Smart Wall layouts and curated operator context.
+                </figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Outcome</h2>
+            <div className="mt-5 space-y-5">
+              <p>
+                The GSOC evolved from a collection of independent tools into a
+                unified operational platform.
+              </p>
+              <p>
+                Operators gained immediate access to the most relevant
+                information without manually assembling it during an incident.
+                Situational awareness improved, response workflows became more
+                consistent, and critical context was available within seconds
+                instead of minutes.
+              </p>
+              <p>
+                By automating information delivery and standardizing operator
+                workflows, the organization reduced operational friction and
+                enabled the GSOC to focus on what mattered most: responding to
+                events effectively and protecting people, facilities, and
+                business operations.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-3xl font-bold text-white">Focus Areas</h2>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {modernGsocFocusAreas.map((area) => (
+                <span
+                  key={area}
+                  className="rounded-full border border-red-400/35 bg-[#18181a]/70 px-4 py-2 text-sm font-semibold text-red-300 shadow-[0_0_20px_rgba(248,113,113,0.08)] backdrop-blur"
+                >
+                  {area}
+                </span>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <Link to="/" className={`${backLinkClass} mt-12`}>
+          Back to Portfolio
+        </Link>
+      </article>
+    </section>
+  );
+}
+
 function CaseStudyPage() {
   const { slug } = useParams();
   const caseStudy = caseStudies.find((study) => study.slug === slug) ?? caseStudies[0];
@@ -346,6 +735,14 @@ function CaseStudyPage() {
 
   if (caseStudy.slug === "unified-video-platform") {
     return <UnifiedVideoPlatformPage caseStudy={caseStudy} />;
+  }
+
+  if (caseStudy.slug === "video-analytics") {
+    return <VideoAnalyticsPage caseStudy={caseStudy} />;
+  }
+
+  if (caseStudy.slug === "modern-gsoc") {
+    return <ModernGsocPage />;
   }
 
   return (
