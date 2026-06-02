@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
 import ParticleNetwork from "./ParticleNetwork";
 import {
@@ -13,6 +14,7 @@ import {
   MonitorCog,
   Network,
   TicketCheck,
+  X,
 } from "lucide-react";
 import profilePhoto from "./assets/profile.png";
 import cs1Thumbnail from "./assets/case-studies/CS1-thumbnail.png";
@@ -111,13 +113,11 @@ const skillCardIn = {
 
 const unifiedVideoFocusAreas = [
   "Milestone XProtect",
-  "Enterprise Video Management",
+  "Federated Architecture",
+  "Centralized Management",
+  "Enterprise Infrastructure",
   "Platform Consolidation",
-  "Recording Server Architecture",
   "Cybersecurity Alignment",
-  "Centralized Administration",
-  "Lifecycle Management",
-  "Distributed Facilities",
 ];
 
 const videoAnalyticsFocusAreas = [
@@ -133,12 +133,10 @@ const videoAnalyticsFocusAreas = [
 
 const modernGsocFocusAreas = [
   "Milestone XProtect Smart Wall",
-  "Milestone Smart Map",
   "Event-Driven Workflows",
-  "Security Operations Centers",
-  "Situational Awareness",
+  "GSOC Operations",
   "Incident Response",
-  "Video Operations",
+  "Situational Awareness",
   "Operational Automation",
 ];
 
@@ -160,6 +158,84 @@ function ScrollToHash() {
   }, [hash, pathname]);
 
   return null;
+}
+
+function LightboxImage({ src, alt, className }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const originalOverflow = document.body.style.overflow;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      <button
+        type="button"
+        className="group block w-full cursor-zoom-in"
+        onClick={() => setIsOpen(true)}
+        aria-label={`Enlarge image: ${alt}`}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className={`${className} transition duration-300 group-hover:scale-[1.01] group-hover:border-red-400/35`}
+        />
+      </button>
+
+      {isOpen &&
+        createPortal(
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md md:p-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label={alt}
+          onClick={() => setIsOpen(false)}
+        >
+          <button
+            type="button"
+            className="absolute right-5 top-5 z-10 rounded-full border border-red-400/40 bg-[#111113]/90 p-3 text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+            aria-label="Close enlarged image"
+            onClick={(event) => {
+              event.stopPropagation();
+              setIsOpen(false);
+            }}
+          >
+            <X className="h-5 w-5" />
+          </button>
+
+          <div
+            className="flex max-h-[90dvh] max-w-[92vw] items-center justify-center"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <img
+              src={src}
+              alt={alt}
+              className="block h-auto max-h-[90dvh] w-auto max-w-[92vw] rounded-xl border border-red-400/25 object-contain shadow-[0_0_60px_rgba(248,113,113,0.16)]"
+            />
+          </div>
+        </div>,
+        document.body,
+      )}
+    </>
+  );
 }
 
 function UnifiedVideoPlatformPage({ caseStudy }) {
@@ -210,7 +286,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
               </p>
             </div>
             <figure className="mt-8">
-              <img
+              <LightboxImage
                 src={cs1SummaryBanner}
                 alt="Executive-level view of surveillance fragmentation, operational risk, and limited visibility"
                 className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
@@ -267,7 +343,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
               </p>
 
               <figure className="py-3">
-                <img
+                <LightboxImage
                   src={milestoneArchitecture}
                   alt="Conceptual modernization architecture for a centralized enterprise video platform"
                   className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
@@ -398,7 +474,7 @@ function VideoAnalyticsPage({ caseStudy }) {
             </div>
 
             <figure className="mt-8">
-              <img
+              <LightboxImage
                 src={cs2SummaryBanner}
                 alt="Operational intelligence summary for video analytics in hospitality operations"
                 className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
@@ -467,7 +543,7 @@ function VideoAnalyticsPage({ caseStudy }) {
               </p>
 
               <figure className="py-3">
-                <img
+                <LightboxImage
                   src={cs2ApproachPhoto}
                   alt="Video analytics approach for measuring guest movement and operational patterns"
                   className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
@@ -576,7 +652,7 @@ function ModernGsocPage() {
               </p>
             </div>
             <figure className="mt-8">
-              <img
+              <LightboxImage
                 src={cs3SummaryBanner}
                 alt="Operator-facing view of information overload during security operations"
                 className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
@@ -646,7 +722,7 @@ function ModernGsocPage() {
               </p>
 
               <figure className="py-3">
-                <img
+                <LightboxImage
                   src={cs3ApproachPhoto}
                   alt="Event-driven workflow for automated Smart Wall layouts and operator context"
                   className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
@@ -863,7 +939,7 @@ function App() {
           </a>
         </section>
 
-        <section className="min-h-screen px-6 pb-20 pt-14 md:px-12 md:pb-24 md:pt-16">
+        <section className="min-h-screen px-6 pb-20 pt-8 md:px-12 md:pb-24 md:pt-10">
           <motion.h2
             id="about"
             className="scroll-mt-24 text-center text-5xl font-bold md:text-6xl"
@@ -878,11 +954,11 @@ function App() {
           </motion.h2>
 
           <div className="mx-auto mt-14 grid max-w-7xl gap-14 md:grid-cols-[0.9fr_1.2fr] md:items-start">
-            <div className="text-center md:text-left">
+            <div className="text-center md:-translate-y-10 md:text-left">
               <motion.img
                 src={profilePhoto}
                 alt="Chris Pawelczyk"
-                className="mx-auto h-60 w-60 rounded-full border border-red-400/40 object-cover shadow-[0_0_60px_rgba(248,113,113,0.24)] md:mx-0 md:h-64 md:w-64"
+                className="mx-auto h-48 w-48 rounded-full border border-red-400/40 object-cover shadow-[0_0_60px_rgba(248,113,113,0.24)] md:mx-0 md:h-52 md:w-52"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: false, amount: 0.3 }}
@@ -897,18 +973,25 @@ function App() {
                 variants={textIn}
                 transition={{ duration: 0.55, delay: 0.18, ease: "easeOut" }}
               >
-                <h3 className="mt-10 text-3xl font-bold md:text-4xl">Chris Pawelczyk</h3>
+                <h3 className="mt-7 text-3xl font-bold md:text-4xl">Chris Pawelczyk</h3>
                 <p className="mt-2 text-red-400">
                   Enterprise Security Systems & Infrastructure
                 </p>
 
-                <div className="mt-6 max-w-xl space-y-5 text-lg leading-8 text-gray-300">
+                <div className="mt-5 max-w-xl space-y-5 text-lg leading-8 text-gray-300">
                   <p>
-                    I work at the intersection of security technology,
-                    infrastructure, and enterprise operations, with experience
-                    across video management systems, access control platforms,
-                    GSOC workflows, and the supporting infrastructure that keeps
-                    critical systems running at scale.
+                    Over the past decade, I&apos;ve worked across physical
+                    security systems, infrastructure, and enterprise operations.
+                    What started as hands-on work with cameras and access
+                    control systems gradually evolved into designing,
+                    supporting, and modernizing large-scale security technology
+                    platforms.
+                  </p>
+                  <p>
+                    This portfolio highlights a few of the projects and
+                    initiatives that shaped that journey. While every project is
+                    different, the common thread is using technology to solve
+                    operational problems at scale.
                   </p>
                 </div>
               </motion.div>
