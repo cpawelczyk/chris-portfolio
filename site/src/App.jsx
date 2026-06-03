@@ -917,7 +917,6 @@ function CaseStudyPage() {
 function App() {
   const [showNav, setShowNav] = useState(false);
   const showNavRef = useRef(false);
-  const scrollFrameRef = useRef(0);
   const location = useLocation();
   const { pathname, hash } = location;
 
@@ -933,27 +932,19 @@ function App() {
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (scrollFrameRef.current) {
-        return;
+    const updateNavVisibility = () => {
+      const nextShowNav = window.scrollY > 100;
+
+      if (showNavRef.current !== nextShowNav) {
+        showNavRef.current = nextShowNav;
+        setShowNav(nextShowNav);
       }
-
-      scrollFrameRef.current = requestAnimationFrame(() => {
-        scrollFrameRef.current = 0;
-        const nextShowNav = window.scrollY > 100;
-
-        if (showNavRef.current !== nextShowNav) {
-          showNavRef.current = nextShowNav;
-          setShowNav(nextShowNav);
-        }
-      });
     };
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    updateNavVisibility();
+    window.addEventListener("scroll", updateNavVisibility, { passive: true });
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      cancelAnimationFrame(scrollFrameRef.current);
+      window.removeEventListener("scroll", updateNavVisibility);
     };
   }, []);
 
