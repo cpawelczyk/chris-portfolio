@@ -151,7 +151,7 @@ const contactSectionHeadingClass =
 const contactSectionAccentClass =
   "mx-auto mt-6 block h-0.5 w-48 bg-gradient-to-r from-transparent via-red-400 to-transparent shadow-[0_0_24px_rgba(248,113,113,0.66)] md:w-64 lg:w-80";
 const navLinkClass =
-  "relative py-1 text-gray-200 transition duration-300 after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-red-400 after:transition-transform after:duration-300 hover:text-white hover:after:scale-x-100";
+  "relative py-1 text-gray-300 transition duration-300 after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:bg-red-400 after:shadow-[0_0_12px_rgba(248,113,113,0.62)] after:transition-transform after:duration-300 hover:text-white hover:after:scale-x-100";
 const activeNavLinkClass = "text-white after:scale-x-100";
 const articleSurfaceClass =
   "mx-auto max-w-4xl rounded-3xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(20,24,34,0.9),rgba(12,15,22,0.96))] p-6 shadow-[0_26px_90px_rgba(0,0,0,0.32),0_0_34px_rgba(248,113,113,0.045)] md:p-10 lg:p-12";
@@ -165,6 +165,13 @@ const caseStudyThumbnailImageClass =
   "h-full w-full scale-[1.075] object-cover object-center";
 const focusPillClass =
   "rounded-full border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-4 py-2 text-sm font-semibold text-red-200 shadow-[0_12px_28px_rgba(0,0,0,0.2)]";
+const homepageSectionIds = [
+  "home",
+  "about",
+  "case-studies",
+  "contact",
+  "build-notes",
+];
 
 function ScrollToHash() {
   const { hash, pathname } = useLocation();
@@ -378,7 +385,7 @@ function UnifiedVideoPlatformPage() {
                 consolidation, and platform unification.
               </p>
               <p>
-                The selected platform was Milestone XProtect, an open-platform
+                The chosen solution was Milestone XProtect, an open-platform
                 video management system capable of supporting a wide range of
                 camera manufacturers and legacy devices. This open architecture
                 enabled existing investments to be preserved while providing a
@@ -400,12 +407,12 @@ function UnifiedVideoPlatformPage() {
                 supportability.
               </p>
               <p>
-                By migrating geographically distributed facilities onto a common
-                platform, the organization established centralized
-                administration, consistent operational standards, improved
-                cybersecurity alignment, standardized hardware architecture,
-                simplified support and lifecycle management, and enterprise-wide
-                visibility across locations.
+                Standardizing on a common platform enabled centralized
+                management, consistent operational practices, and a unified
+                technology architecture across geographically distributed
+                facilities. The result was improved visibility, simplified
+                support, stronger cybersecurity alignment, and a more
+                sustainable lifecycle management strategy.
               </p>
             </div>
           </section>
@@ -922,19 +929,30 @@ function CaseStudyPage() {
 
 function App() {
   const [showNav, setShowNav] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const showNavRef = useRef(false);
+  const shouldReduceMotion = useReducedMotion();
   const location = useLocation();
   const { pathname, hash } = location;
+  const buildNotesReveal = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   const navLinks = [
-    { label: "Home", to: "/", isActive: pathname === "/" && !hash },
-    { label: "About", to: "/#about", isActive: pathname === "/" && hash === "#about" },
+    { label: "Home", to: "/", sectionId: "home" },
+    { label: "About", to: "/#about", sectionId: "about" },
     {
       label: "Case Studies",
       to: "/#case-studies",
-      isActive: hash === "#case-studies" || pathname.startsWith("/case-studies"),
+      sectionId: "case-studies",
     },
-    { label: "Contact", to: "/#contact", isActive: pathname === "/" && hash === "#contact" },
+    { label: "Contact", to: "/#contact", sectionId: "contact" },
+    {
+      label: "Build Notes",
+      to: "/#build-notes",
+      sectionId: "build-notes",
+    },
   ];
 
   useEffect(() => {
@@ -954,6 +972,70 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (pathname !== "/") {
+      return undefined;
+    }
+
+    let frame = 0;
+
+    const updateActiveSection = () => {
+      frame = 0;
+      const marker = window.innerHeight * 0.38;
+      let currentSection = "home";
+
+      homepageSectionIds.forEach((sectionId) => {
+        const section = document.getElementById(sectionId);
+
+        if (section && section.getBoundingClientRect().top <= marker) {
+          currentSection = sectionId;
+        }
+      });
+
+      setActiveSection((previousSection) =>
+        previousSection === currentSection ? previousSection : currentSection,
+      );
+    };
+
+    const scheduleUpdate = () => {
+      if (frame) {
+        return;
+      }
+
+      frame = requestAnimationFrame(updateActiveSection);
+    };
+
+    const observer = new IntersectionObserver(scheduleUpdate, {
+      rootMargin: "-20% 0px -55% 0px",
+      threshold: 0,
+    });
+
+    homepageSectionIds.forEach((sectionId) => {
+      const section = document.getElementById(sectionId);
+
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    if (hash && homepageSectionIds.includes(hash.slice(1))) {
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        setActiveSection(hash.slice(1));
+      });
+    } else {
+      scheduleUpdate();
+    }
+
+    window.addEventListener("resize", scheduleUpdate);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [hash, pathname]);
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0f0f10] text-white">
       <ScrollToHash />
@@ -963,7 +1045,7 @@ function App() {
 
       <div className="relative z-10">
         <nav
-          className={`fixed left-0 top-0 z-50 flex w-full justify-center gap-6 border-b border-white/10 bg-[#18181a]/82 px-6 py-4 text-sm font-semibold tracking-wide shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-md transition duration-500 md:justify-end md:gap-10 md:px-12 md:text-base ${
+          className={`fixed left-0 top-0 z-50 flex w-full justify-center gap-6 border-b border-white/[0.12] bg-[#111316]/72 px-6 py-4 text-sm font-semibold tracking-wide shadow-[0_12px_44px_rgba(0,0,0,0.24),0_0_18px_rgba(248,113,113,0.035)] backdrop-blur-xl transition duration-500 md:justify-end md:gap-10 md:px-12 md:text-base ${
             showNav
               ? "translate-y-0 opacity-100"
               : "pointer-events-none -translate-y-full opacity-0"
@@ -973,7 +1055,11 @@ function App() {
             <Link
               key={link.label}
               to={link.to}
-              className={`${navLinkClass} ${link.isActive ? activeNavLinkClass : ""}`}
+              className={`${navLinkClass} ${
+                pathname === "/" && activeSection === link.sectionId
+                  ? activeNavLinkClass
+                  : ""
+              }`}
             >
               {link.label}
             </Link>
@@ -998,10 +1084,12 @@ function App() {
           </a>
         </section>
 
-        <section className="min-h-screen px-6 pb-20 pt-8 md:px-12 md:pb-24 md:pt-10">
+        <section
+          id="about"
+          className="min-h-screen scroll-mt-20 px-6 pb-20 pt-2 md:px-12 md:pb-24 md:pt-4"
+        >
           <motion.h2
-            id="about"
-            className={`scroll-mt-24 ${homeSectionHeadingClass}`}
+            className={homeSectionHeadingClass}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.3 }}
@@ -1012,7 +1100,7 @@ function App() {
             <span className={homeSectionAccentClass} />
           </motion.h2>
 
-          <div className="mx-auto mt-14 grid max-w-7xl gap-14 md:grid-cols-[0.9fr_1.2fr] md:items-start">
+          <div className="mx-auto mt-10 grid max-w-7xl gap-12 md:grid-cols-[0.9fr_1.2fr] md:items-start">
             <div className="text-center md:-translate-y-10 md:text-left">
               <motion.img
                 src={profilePhoto}
@@ -1087,22 +1175,24 @@ function App() {
           </div>
         </section>
 
-        <section className="min-h-screen px-6 py-28 md:px-12">
+        <section
+          id="case-studies"
+          className="min-h-screen scroll-mt-16 px-6 pb-28 pt-10 md:px-12 md:pt-12"
+        >
           <h2
-            id="case-studies"
-            className={`scroll-mt-24 ${homeSectionHeadingClass}`}
+            className={homeSectionHeadingClass}
           >
             Case Studies
             <span className={homeSectionAccentClass} />
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-center text-base leading-7 text-gray-300 md:text-lg md:leading-8">
             This portfolio goes beyond a resume by providing a closer look at
-            several projects and initiatives I&apos;ve helped deliver throughout my
+            several projects I&apos;ve helped deliver throughout my
             career. Click any case study to explore the business challenge,
             technical approach, and operational impact of each initiative.
           </p>
 
-          <div className="mx-auto mt-14 flex max-w-7xl flex-col gap-10">
+          <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-10">
             {caseStudies.map((caseStudy, index) => {
               const imageFirst = index !== 1;
 
@@ -1193,6 +1283,74 @@ function App() {
               </a>
             </div>
           </div>
+        </section>
+
+        <section
+          id="build-notes"
+          className="flex min-h-screen scroll-mt-24 flex-col justify-center px-6 py-32 md:px-12 md:py-36"
+        >
+          <motion.div
+            className="mx-auto w-full max-w-4xl -translate-y-10 md:-translate-y-14"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.35 }}
+            transition={
+              shouldReduceMotion
+                ? { duration: 0.01 }
+                : { staggerChildren: 0.13 }
+            }
+          >
+            <motion.h2
+              className={homeSectionHeadingClass}
+              variants={buildNotesReveal}
+              transition={
+                shouldReduceMotion
+                  ? { duration: 0.01 }
+                  : { duration: 0.48, ease: "easeOut" }
+              }
+            >
+              Build Notes
+            </motion.h2>
+            <motion.span
+              className={homeSectionAccentClass}
+              variants={buildNotesReveal}
+              transition={
+                shouldReduceMotion
+                  ? { duration: 0.01 }
+                  : { duration: 0.38, ease: "easeOut" }
+              }
+            />
+            <div className="mx-auto mt-12 max-w-3xl space-y-7 text-left text-lg font-medium leading-8 text-gray-200 md:text-xl md:leading-9">
+              <motion.p
+                variants={buildNotesReveal}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0.01 }
+                    : { duration: 0.52, ease: "easeOut" }
+                }
+              >
+                Beyond showcasing my professional experience, this portfolio was
+                also a personal project to explore modern AI-assisted
+                development workflows. While I had no prior experience building
+                React applications, I used AI as a collaborative tool to design,
+                build, refine, troubleshoot, and optimize the site from concept
+                to completion.
+              </motion.p>
+              <motion.p
+                variants={buildNotesReveal}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0.01 }
+                    : { duration: 0.52, ease: "easeOut" }
+                }
+              >
+                The result is both a portfolio of my professional work and a
+                practical example of how AI can accelerate learning, execution,
+                and problem solving when paired with strong technical and
+                operational foundations.
+              </motion.p>
+            </div>
+          </motion.div>
         </section>
               </>
               </PageTransition>
