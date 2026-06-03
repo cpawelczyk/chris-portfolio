@@ -145,11 +145,11 @@ const backLinkClass =
 const homeSectionHeadingClass =
   "text-center text-4xl font-semibold leading-tight md:text-5xl";
 const homeSectionAccentClass =
-  "mx-auto mt-4 block h-px w-24 bg-gradient-to-r from-transparent via-red-400 to-transparent shadow-[0_0_18px_rgba(248,113,113,0.55)]";
+  "mx-auto mt-4 block h-0.5 w-32 bg-gradient-to-r from-transparent via-red-400 to-transparent shadow-[0_0_22px_rgba(248,113,113,0.62)]";
 const contactSectionHeadingClass =
   "text-center text-5xl font-semibold leading-tight md:text-7xl lg:text-8xl";
 const contactSectionAccentClass =
-  "mx-auto mt-5 block h-px w-32 bg-gradient-to-r from-transparent via-red-400 to-transparent shadow-[0_0_22px_rgba(248,113,113,0.62)]";
+  "mx-auto mt-6 block h-0.5 w-48 bg-gradient-to-r from-transparent via-red-400 to-transparent shadow-[0_0_24px_rgba(248,113,113,0.66)] md:w-64 lg:w-80";
 const navLinkClass =
   "relative py-1 text-gray-200 transition duration-300 after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-red-400 after:transition-transform after:duration-300 hover:text-white hover:after:scale-x-100";
 const activeNavLinkClass = "text-white after:scale-x-100";
@@ -157,6 +157,12 @@ const articleSurfaceClass =
   "mx-auto max-w-4xl rounded-3xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(20,24,34,0.9),rgba(12,15,22,0.96))] p-6 shadow-[0_26px_90px_rgba(0,0,0,0.32),0_0_34px_rgba(248,113,113,0.045)] md:p-10 lg:p-12";
 const articleImageClass =
   "w-full rounded-xl border border-white/[0.13] shadow-[0_18px_60px_rgba(0,0,0,0.26),0_0_22px_rgba(248,113,113,0.045)]";
+const caseStudyThumbnailFrameClass =
+  "flex h-full items-center justify-center p-5 md:p-6";
+const caseStudyThumbnailViewportClass =
+  "aspect-[3/2] w-full overflow-hidden rounded-xl border border-white/[0.13] shadow-[0_18px_70px_rgba(0,0,0,0.34),0_0_24px_rgba(248,113,113,0.06)]";
+const caseStudyThumbnailImageClass =
+  "h-full w-full scale-[1.075] object-cover object-center";
 const focusPillClass =
   "rounded-full border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-4 py-2 text-sm font-semibold text-red-200 shadow-[0_12px_28px_rgba(0,0,0,0.2)]";
 
@@ -1108,18 +1114,19 @@ function App() {
                 >
                   <article className="grid overflow-hidden rounded-2xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(22,27,38,0.78),rgba(12,16,24,0.92))] shadow-[0_24px_90px_rgba(0,0,0,0.28),0_0_28px_rgba(248,113,113,0.035)] transition duration-300 group-hover:-translate-y-1 group-hover:border-red-400/25 group-hover:shadow-[0_28px_100px_rgba(0,0,0,0.34),0_0_34px_rgba(248,113,113,0.075)] md:grid-cols-2">
                     <div
-                      className={`relative flex min-h-[24rem] items-center justify-center overflow-hidden bg-[linear-gradient(135deg,rgba(13,17,25,0.94),rgba(8,11,17,0.98))] p-4 md:min-h-[30rem] xl:min-h-[34rem] ${
+                      className={`${caseStudyThumbnailFrameClass} ${
                         imageFirst ? "md:order-1" : "md:order-2"
                       }`}
                     >
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(248,113,113,0.07),transparent_42%)]" />
-                      <img
-                        src={caseStudy.image}
-                        alt={caseStudy.title}
-                        loading="lazy"
-                        decoding="async"
-                        className="relative h-full min-h-[22rem] w-full rounded-xl border border-white/[0.13] bg-[#0c1018]/82 object-contain object-center shadow-[0_18px_70px_rgba(0,0,0,0.34),0_0_24px_rgba(248,113,113,0.06)] md:min-h-[28rem] xl:min-h-[32rem]"
-                      />
+                      <div className={caseStudyThumbnailViewportClass}>
+                        <img
+                          src={caseStudy.image}
+                          alt={caseStudy.title}
+                          loading="lazy"
+                          decoding="async"
+                          className={caseStudyThumbnailImageClass}
+                        />
+                      </div>
                     </div>
 
                     <div
