@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
@@ -142,6 +142,23 @@ const modernGsocFocusAreas = [
 
 const backLinkClass =
   "inline-flex rounded-full border border-red-400/50 px-5 py-2 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white";
+const homeSectionHeadingClass =
+  "text-center text-4xl font-semibold leading-tight md:text-5xl";
+const homeSectionAccentClass =
+  "mx-auto mt-4 block h-px w-24 bg-gradient-to-r from-transparent via-red-400 to-transparent shadow-[0_0_18px_rgba(248,113,113,0.55)]";
+const contactSectionHeadingClass =
+  "text-center text-5xl font-semibold leading-tight md:text-7xl lg:text-8xl";
+const contactSectionAccentClass =
+  "mx-auto mt-5 block h-px w-32 bg-gradient-to-r from-transparent via-red-400 to-transparent shadow-[0_0_22px_rgba(248,113,113,0.62)]";
+const navLinkClass =
+  "relative py-1 text-gray-200 transition duration-300 after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-red-400 after:transition-transform after:duration-300 hover:text-white hover:after:scale-x-100";
+const activeNavLinkClass = "text-white after:scale-x-100";
+const articleSurfaceClass =
+  "mx-auto max-w-4xl rounded-3xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(20,24,34,0.9),rgba(12,15,22,0.96))] p-6 shadow-[0_26px_90px_rgba(0,0,0,0.32),0_0_34px_rgba(248,113,113,0.045)] md:p-10 lg:p-12";
+const articleImageClass =
+  "w-full rounded-xl border border-white/[0.13] shadow-[0_18px_60px_rgba(0,0,0,0.26),0_0_22px_rgba(248,113,113,0.045)]";
+const focusPillClass =
+  "rounded-full border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-4 py-2 text-sm font-semibold text-red-200 shadow-[0_12px_28px_rgba(0,0,0,0.2)]";
 
 function ScrollToHash() {
   const { hash, pathname } = useLocation();
@@ -158,6 +175,27 @@ function ScrollToHash() {
   }, [hash, pathname]);
 
   return null;
+}
+
+function PageTransition({ children, transitionKey }) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      key={transitionKey}
+      initial={
+        shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12, scale: 0.995 }
+      }
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={
+        shouldReduceMotion
+          ? { duration: 0.01 }
+          : { duration: 0.24, ease: "easeOut" }
+      }
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 function LightboxImage({ src, alt, className }) {
@@ -241,7 +279,7 @@ function LightboxImage({ src, alt, className }) {
 function UnifiedVideoPlatformPage({ caseStudy }) {
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
-      <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
+      <article className={articleSurfaceClass}>
         <Link
           to="/#case-studies"
           className={backLinkClass}
@@ -289,7 +327,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
               <LightboxImage
                 src={cs1SummaryBanner}
                 alt="Executive-level view of surveillance fragmentation, operational risk, and limited visibility"
-                className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                className={articleImageClass}
               />
               <figcaption className="mt-3 text-sm leading-6 text-gray-500">
                 Executive-level view of surveillance fragmentation, operational
@@ -346,7 +384,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
                 <LightboxImage
                   src={milestoneArchitecture}
                   alt="Conceptual modernization architecture for a centralized enterprise video platform"
-                  className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                  className={articleImageClass}
                 />
                 <figcaption className="mt-3 text-sm leading-6 text-gray-500">
                   Conceptual modernization architecture illustrating the
@@ -402,7 +440,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
               {unifiedVideoFocusAreas.map((area) => (
                 <span
                   key={area}
-                  className="rounded-full border border-red-400/35 bg-[#18181a]/70 px-4 py-2 text-sm font-semibold text-red-300 shadow-[0_0_20px_rgba(248,113,113,0.08)] backdrop-blur"
+                  className={focusPillClass}
                 >
                   {area}
                 </span>
@@ -422,7 +460,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
 function VideoAnalyticsPage({ caseStudy }) {
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
-      <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
+      <article className={articleSurfaceClass}>
         <Link to="/#case-studies" className={backLinkClass}>
           Back to Portfolio
         </Link>
@@ -477,7 +515,7 @@ function VideoAnalyticsPage({ caseStudy }) {
               <LightboxImage
                 src={cs2SummaryBanner}
                 alt="Operational intelligence summary for video analytics in hospitality operations"
-                className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                className={articleImageClass}
               />
             </figure>
           </section>
@@ -546,7 +584,7 @@ function VideoAnalyticsPage({ caseStudy }) {
                 <LightboxImage
                   src={cs2ApproachPhoto}
                   alt="Video analytics approach for measuring guest movement and operational patterns"
-                  className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                  className={articleImageClass}
                 />
               </figure>
             </div>
@@ -586,7 +624,7 @@ function VideoAnalyticsPage({ caseStudy }) {
               {videoAnalyticsFocusAreas.map((area) => (
                 <span
                   key={area}
-                  className="rounded-full border border-red-400/35 bg-[#18181a]/70 px-4 py-2 text-sm font-semibold text-red-300 shadow-[0_0_20px_rgba(248,113,113,0.08)] backdrop-blur"
+                  className={focusPillClass}
                 >
                   {area}
                 </span>
@@ -606,7 +644,7 @@ function VideoAnalyticsPage({ caseStudy }) {
 function ModernGsocPage() {
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
-      <article className="mx-auto max-w-4xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
+      <article className={articleSurfaceClass}>
         <Link to="/#case-studies" className={backLinkClass}>
           Back to Portfolio
         </Link>
@@ -646,7 +684,7 @@ function ModernGsocPage() {
               </p>
               <p>
                 The goal is no longer simply monitoring security systems. The
-                goal is creating a unified operating picture that allows
+                goal is creating a unified picture that allows
                 operators to understand what&apos;s happening and respond
                 effectively in real time.
               </p>
@@ -655,7 +693,7 @@ function ModernGsocPage() {
               <LightboxImage
                 src={cs3SummaryBanner}
                 alt="Operator-facing view of information overload during security operations"
-                className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                className={articleImageClass}
               />
               <figcaption className="mt-3 text-sm leading-6 text-gray-500">
                 Operator-facing view of information overload during
@@ -694,7 +732,7 @@ function ModernGsocPage() {
             <h2 className="text-3xl font-bold text-white">Approach</h2>
             <div className="mt-5 space-y-5">
               <p>
-                Using Milestone XProtect Smart Wall, Smart Map, automated rules,
+                Using Milestone XProtect Smart Wall, XProtect Smart Map, automated rules,
                 and event-driven workflows, we redesigned how information was
                 presented to operators.
               </p>
@@ -725,7 +763,7 @@ function ModernGsocPage() {
                 <LightboxImage
                   src={cs3ApproachPhoto}
                   alt="Event-driven workflow for automated Smart Wall layouts and operator context"
-                  className="w-full rounded-xl border border-red-400/20 shadow-[0_0_30px_rgba(248,113,113,0.12)]"
+                  className={articleImageClass}
                 />
                 <figcaption className="mt-3 text-sm leading-6 text-gray-500">
                   Event-driven workflow showing how critical events can trigger
@@ -765,7 +803,7 @@ function ModernGsocPage() {
               {modernGsocFocusAreas.map((area) => (
                 <span
                   key={area}
-                  className="rounded-full border border-red-400/35 bg-[#18181a]/70 px-4 py-2 text-sm font-semibold text-red-300 shadow-[0_0_20px_rgba(248,113,113,0.08)] backdrop-blur"
+                  className={focusPillClass}
                 >
                   {area}
                 </span>
@@ -823,7 +861,7 @@ function CaseStudyPage() {
 
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
-      <div className="mx-auto max-w-6xl rounded-3xl border border-red-400/20 bg-[#111113]/82 p-6 shadow-[0_0_60px_rgba(248,113,113,0.12)] backdrop-blur-md md:p-10 lg:p-12">
+      <div className="mx-auto max-w-6xl rounded-3xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(20,24,34,0.88),rgba(12,15,22,0.96))] p-6 shadow-[0_26px_90px_rgba(0,0,0,0.32),0_0_34px_rgba(248,113,113,0.045)] md:p-10 lg:p-12">
         <Link
           to="/#case-studies"
           className={backLinkClass}
@@ -832,12 +870,12 @@ function CaseStudyPage() {
         </Link>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-          <div className="relative overflow-hidden rounded-2xl border border-red-400/25 bg-[#111113] p-4 shadow-[0_0_55px_rgba(248,113,113,0.16)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(248,113,113,0.18),transparent_42%)]" />
+          <div className="relative overflow-hidden rounded-2xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(13,17,25,0.92),rgba(8,11,17,0.98))] p-4 shadow-[0_18px_70px_rgba(0,0,0,0.32),0_0_22px_rgba(248,113,113,0.045)]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(248,113,113,0.06),transparent_42%)]" />
             <img
               src={caseStudy.image}
               alt={caseStudy.title}
-              className="relative w-full rounded-xl border border-red-400/20 bg-[#0f0f10]/70 object-contain shadow-[0_0_45px_rgba(248,113,113,0.14)]"
+              className="relative w-full rounded-xl border border-white/[0.13] bg-[#0c1018]/80 object-contain shadow-[0_18px_60px_rgba(0,0,0,0.28),0_0_18px_rgba(248,113,113,0.045)]"
             />
           </div>
 
@@ -858,20 +896,20 @@ function CaseStudyPage() {
           {sections.map((section) => (
             <article
               key={section.title}
-              className="rounded-2xl border border-red-400/20 bg-[#18181a]/70 p-6 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur"
+              className="rounded-2xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.76),rgba(13,16,24,0.9))] p-6 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)]"
             >
               <h2 className="text-2xl font-bold">{section.title}</h2>
               <p className="mt-4 leading-7 text-gray-300">{section.body}</p>
             </article>
           ))}
 
-          <article className="rounded-2xl border border-red-400/20 bg-[#18181a]/70 p-6 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur md:col-span-2">
+          <article className="rounded-2xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.76),rgba(13,16,24,0.9))] p-6 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] md:col-span-2">
             <h2 className="text-2xl font-bold">Technologies / Focus Areas</h2>
             <div className="mt-5 flex flex-wrap gap-3">
               {caseStudy.focusAreas.map((area) => (
                 <span
                   key={area}
-                  className="rounded-full border border-red-400/35 px-4 py-2 text-sm font-semibold text-red-300"
+                  className={focusPillClass}
                 >
                   {area}
                 </span>
@@ -890,6 +928,19 @@ function CaseStudyPage() {
 
 function App() {
   const [showNav, setShowNav] = useState(false);
+  const location = useLocation();
+  const { pathname, hash } = location;
+
+  const navLinks = [
+    { label: "Home", to: "/", isActive: pathname === "/" && !hash },
+    { label: "About", to: "/#about", isActive: pathname === "/" && hash === "#about" },
+    {
+      label: "Case Studies",
+      to: "/#case-studies",
+      isActive: hash === "#case-studies" || pathname.startsWith("/case-studies"),
+    },
+    { label: "Contact", to: "/#contact", isActive: pathname === "/" && hash === "#contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -910,22 +961,28 @@ function App() {
 
       <div className="relative z-10">
         <nav
-          className={`fixed left-0 top-0 z-50 flex w-full justify-center gap-6 bg-[#18181a]/80 px-6 py-4 text-sm font-semibold backdrop-blur-md transition duration-500 md:justify-end md:gap-10 md:px-12 md:text-base ${
+          className={`fixed left-0 top-0 z-50 flex w-full justify-center gap-6 border-b border-white/10 bg-[#18181a]/82 px-6 py-4 text-sm font-semibold tracking-wide shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-md transition duration-500 md:justify-end md:gap-10 md:px-12 md:text-base ${
             showNav
               ? "translate-y-0 opacity-100"
               : "pointer-events-none -translate-y-full opacity-0"
           }`}
         >
-          <Link to="/" className="transition hover:text-red-400">Home</Link>
-          <Link to="/#about" className="transition hover:text-red-400">About</Link>
-          <Link to="/#case-studies" className="transition hover:text-red-400">Case Studies</Link>
-          <Link to="/#contact" className="transition hover:text-red-400">Contact</Link>
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              to={link.to}
+              className={`${navLinkClass} ${link.isActive ? activeNavLinkClass : ""}`}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
-        <Routes>
+        <Routes location={location}>
           <Route
             path="/"
             element={
+              <PageTransition transitionKey={pathname}>
               <>
         <section id="home" className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
           <h1 className="max-w-5xl text-5xl font-light leading-tight md:text-7xl">
@@ -942,7 +999,7 @@ function App() {
         <section className="min-h-screen px-6 pb-20 pt-8 md:px-12 md:pb-24 md:pt-10">
           <motion.h2
             id="about"
-            className="scroll-mt-24 text-center text-5xl font-bold md:text-6xl"
+            className={`scroll-mt-24 ${homeSectionHeadingClass}`}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.3 }}
@@ -950,7 +1007,7 @@ function App() {
             transition={{ duration: 0.55, ease: "easeOut" }}
           >
             About
-            <span className="mx-auto mt-1 block h-3 w-36 bg-red-400" />
+            <span className={homeSectionAccentClass} />
           </motion.h2>
 
           <div className="mx-auto mt-14 grid max-w-7xl gap-14 md:grid-cols-[0.9fr_1.2fr] md:items-start">
@@ -989,9 +1046,7 @@ function App() {
                   </p>
                   <p>
                     This portfolio highlights a few of the projects and
-                    initiatives that shaped that journey. While every project is
-                    different, the common thread is using technology to solve
-                    operational problems at scale.
+                    initiatives that shaped that journey. 
                   </p>
                 </div>
               </motion.div>
@@ -1011,7 +1066,7 @@ function App() {
                   transition={{ duration: 0.45, ease: "easeOut" }}
                 >
                   <div
-                    className={`flex min-h-32 flex-col items-center justify-center rounded-xl border border-red-400/35 bg-[#18181a]/75 p-5 text-center shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur transition hover:-translate-y-1 hover:border-red-400 hover:shadow-[0_0_35px_rgba(248,113,113,0.22)] ${
+                    className={`flex min-h-32 flex-col items-center justify-center rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.76),rgba(13,16,24,0.9))] p-5 text-center shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:-translate-y-1 hover:border-red-400/30 hover:shadow-[0_20px_55px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.09)] ${
                       index % 3 === 1 ? "md:translate-y-8" : ""
                     }`}
                   >
@@ -1029,10 +1084,10 @@ function App() {
         <section className="min-h-screen px-6 py-28 md:px-12">
           <h2
             id="case-studies"
-            className="scroll-mt-24 text-center text-5xl font-bold md:text-6xl"
+            className={`scroll-mt-24 ${homeSectionHeadingClass}`}
           >
             Case Studies
-            <span className="mx-auto mt-1 block h-3 w-52 bg-red-400" />
+            <span className={homeSectionAccentClass} />
           </h2>
 
           <div className="mx-auto mt-20 flex max-w-7xl flex-col gap-10">
@@ -1040,42 +1095,42 @@ function App() {
               const imageFirst = index !== 1;
 
               return (
-                <article
+                <Link
                   key={caseStudy.title}
-                  className="grid overflow-hidden rounded-2xl border border-red-400/20 bg-[#18181a]/70 shadow-[0_0_45px_rgba(248,113,113,0.08)] backdrop-blur md:grid-cols-2"
+                  to={`/case-studies/${caseStudy.slug}`}
+                  className="group block cursor-pointer rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f0f10]"
                 >
-                  <div
-                    className={`relative flex min-h-[24rem] items-center justify-center overflow-hidden bg-[#111113] p-4 md:min-h-[30rem] xl:min-h-[34rem] ${
-                      imageFirst ? "md:order-1" : "md:order-2"
-                    }`}
-                  >
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(248,113,113,0.2),transparent_40%)]" />
-                    <img
-                      src={caseStudy.image}
-                      alt={caseStudy.title}
-                      className="relative h-full min-h-[22rem] w-full rounded-xl border border-red-400/25 bg-[#0f0f10]/70 object-contain object-center shadow-[0_0_55px_rgba(248,113,113,0.2)] md:min-h-[28rem] xl:min-h-[32rem]"
-                    />
-                  </div>
-
-                  <div
-                    className={`flex flex-col justify-center p-8 md:p-12 ${
-                      imageFirst ? "md:order-2" : "md:order-1"
-                    }`}
-                  >
-                    <h3 className="text-3xl font-bold leading-tight md:text-4xl">
-                      {caseStudy.title}
-                    </h3>
-                    <p className="mt-5 text-lg leading-8 text-gray-300">
-                      {caseStudy.description}
-                    </p>
-                    <Link
-                      to={`/case-studies/${caseStudy.slug}`}
-                      className="mt-8 w-fit rounded-full border border-red-400/60 px-6 py-3 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+                  <article className="grid overflow-hidden rounded-2xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(22,27,38,0.78),rgba(12,16,24,0.92))] shadow-[0_24px_90px_rgba(0,0,0,0.28),0_0_28px_rgba(248,113,113,0.035)] transition duration-300 group-hover:-translate-y-1 group-hover:border-red-400/25 group-hover:shadow-[0_28px_100px_rgba(0,0,0,0.34),0_0_34px_rgba(248,113,113,0.075)] md:grid-cols-2">
+                    <div
+                      className={`relative flex min-h-[24rem] items-center justify-center overflow-hidden bg-[linear-gradient(135deg,rgba(13,17,25,0.94),rgba(8,11,17,0.98))] p-4 md:min-h-[30rem] xl:min-h-[34rem] ${
+                        imageFirst ? "md:order-1" : "md:order-2"
+                      }`}
                     >
-                      Learn More
-                    </Link>
-                  </div>
-                </article>
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(248,113,113,0.07),transparent_42%)]" />
+                      <img
+                        src={caseStudy.image}
+                        alt={caseStudy.title}
+                        className="relative h-full min-h-[22rem] w-full rounded-xl border border-white/[0.13] bg-[#0c1018]/82 object-contain object-center shadow-[0_18px_70px_rgba(0,0,0,0.34),0_0_24px_rgba(248,113,113,0.06)] md:min-h-[28rem] xl:min-h-[32rem]"
+                      />
+                    </div>
+
+                    <div
+                      className={`flex flex-col justify-center p-8 md:p-12 ${
+                        imageFirst ? "md:order-2" : "md:order-1"
+                      }`}
+                    >
+                      <h3 className="text-3xl font-bold leading-tight md:text-4xl">
+                        {caseStudy.title}
+                      </h3>
+                      <p className="mt-5 text-lg leading-8 text-gray-300">
+                        {caseStudy.description}
+                      </p>
+                      <span className="mt-8 w-fit rounded-full border border-red-400/45 bg-[#111827]/45 px-6 py-3 text-sm font-semibold text-red-200 transition group-hover:border-red-400/80 group-hover:bg-red-400 group-hover:text-white">
+                        Learn More
+                      </span>
+                    </div>
+                  </article>
+                </Link>
               );
             })}
           </div>
@@ -1086,8 +1141,9 @@ function App() {
           className="flex min-h-screen scroll-mt-24 flex-col justify-between px-6 py-28 md:px-12"
         >
           <div className="mx-auto flex w-full max-w-5xl flex-1 -translate-y-8 flex-col items-center justify-center text-center md:-translate-y-12">
-            <h2 className="text-5xl font-bold leading-tight md:text-7xl">
+            <h2 className={contactSectionHeadingClass}>
               Let&apos;s connect.
+              <span className={contactSectionAccentClass} />
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-300 md:text-xl">
               I&apos;m always interested in conversations about enterprise
@@ -1098,33 +1154,37 @@ function App() {
             <div className="mt-10 flex w-full max-w-2xl flex-col gap-4 sm:grid sm:grid-cols-3">
               <a
                 href="mailto:cjpawelczyk@gmail.com"
-                className="rounded-xl border border-red-400/40 bg-[#18181a]/75 px-6 py-4 text-sm font-semibold text-red-300 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+                className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
               >
                 Email
               </a>
               <a
                 href="https://www.linkedin.com/in/chrispawelczyk"
-                className="rounded-xl border border-red-400/40 bg-[#18181a]/75 px-6 py-4 text-sm font-semibold text-red-300 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+                className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
               >
                 LinkedIn
               </a>
               <a
                 href="/resume.pdf"
-                className="rounded-xl border border-red-400/40 bg-[#18181a]/75 px-6 py-4 text-sm font-semibold text-red-300 shadow-[0_0_30px_rgba(248,113,113,0.08)] backdrop-blur transition hover:border-red-400 hover:bg-red-400 hover:text-white"
+                className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
               >
                 Download Resume
               </a>
             </div>
           </div>
-
-          <footer className="mx-auto mt-16 w-full max-w-7xl border-t border-white/10 pt-6 text-center text-sm text-gray-500 md:text-left">
-            Chris Pawelczyk &copy; 2026
-          </footer>
         </section>
               </>
+              </PageTransition>
             }
           />
-          <Route path="/case-studies/:slug" element={<CaseStudyPage />} />
+          <Route
+            path="/case-studies/:slug"
+            element={
+              <PageTransition transitionKey={pathname}>
+                <CaseStudyPage />
+              </PageTransition>
+            }
+          />
         </Routes>
       </div>
     </main>
