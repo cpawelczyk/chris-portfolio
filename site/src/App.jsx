@@ -1089,8 +1089,14 @@ function App() {
             Case Studies
             <span className={homeSectionAccentClass} />
           </h2>
+          <p className="mx-auto mt-8 max-w-3xl text-center text-base leading-7 text-gray-300 md:text-lg md:leading-8">
+            This portfolio goes beyond a resume by providing a closer look at
+            several projects and initiatives I&apos;ve helped deliver throughout my
+            career. Click any case study to explore the business challenge,
+            technical approach, and operational impact of each initiative.
+          </p>
 
-          <div className="mx-auto mt-20 flex max-w-7xl flex-col gap-10">
+          <div className="mx-auto mt-14 flex max-w-7xl flex-col gap-10">
             {caseStudies.map((caseStudy, index) => {
               const imageFirst = index !== 1;
 
@@ -1153,22 +1159,28 @@ function App() {
 
             <div className="mt-10 flex w-full max-w-2xl flex-col gap-4 sm:grid sm:grid-cols-3">
               <a
-                href="mailto:cjpawelczyk@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=cjpawelczyk@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
               >
                 Email
               </a>
               <a
                 href="https://www.linkedin.com/in/chrispawelczyk"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
               >
                 LinkedIn
               </a>
               <a
                 href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
               >
-                Download Resume
+                Resume
               </a>
             </div>
           </div>
