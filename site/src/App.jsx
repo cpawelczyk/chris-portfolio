@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
 import ParticleNetwork from "./ParticleNetwork";
@@ -192,6 +192,7 @@ function PageTransition({ children, transitionKey }) {
           ? { duration: 0.01 }
           : { duration: 0.24, ease: "easeOut" }
       }
+      style={{ willChange: shouldReduceMotion ? "auto" : "transform, opacity" }}
     >
       {children}
     </motion.div>
@@ -234,6 +235,8 @@ function LightboxImage({ src, alt, className }) {
         <img
           src={src}
           alt={alt}
+          loading="lazy"
+          decoding="async"
           className={`${className} transition duration-300 group-hover:scale-[1.01] group-hover:border-red-400/35`}
         />
       </button>
@@ -266,6 +269,7 @@ function LightboxImage({ src, alt, className }) {
             <img
               src={src}
               alt={alt}
+              decoding="async"
               className="block h-auto max-h-[90dvh] w-auto max-w-[92vw] rounded-xl border border-red-400/25 object-contain shadow-[0_0_60px_rgba(248,113,113,0.16)]"
             />
           </div>
@@ -276,7 +280,7 @@ function LightboxImage({ src, alt, className }) {
   );
 }
 
-function UnifiedVideoPlatformPage({ caseStudy }) {
+function UnifiedVideoPlatformPage() {
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
       <article className={articleSurfaceClass}>
@@ -329,11 +333,6 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
                 alt="Executive-level view of surveillance fragmentation, operational risk, and limited visibility"
                 className={articleImageClass}
               />
-              <figcaption className="mt-3 text-sm leading-6 text-gray-500">
-                Executive-level view of surveillance fragmentation, operational
-                risk, and limited visibility across a distributed enterprise
-                environment.
-              </figcaption>
             </figure>
           </section>
 
@@ -386,11 +385,6 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
                   alt="Conceptual modernization architecture for a centralized enterprise video platform"
                   className={articleImageClass}
                 />
-                <figcaption className="mt-3 text-sm leading-6 text-gray-500">
-                  Conceptual modernization architecture illustrating the
-                  transition from fragmented site-level video systems to a
-                  centralized enterprise video platform.
-                </figcaption>
               </figure>
 
               <p>
@@ -457,7 +451,7 @@ function UnifiedVideoPlatformPage({ caseStudy }) {
   );
 }
 
-function VideoAnalyticsPage({ caseStudy }) {
+function VideoAnalyticsPage() {
   return (
     <section className="min-h-screen px-6 py-24 md:px-12">
       <article className={articleSurfaceClass}>
@@ -695,10 +689,6 @@ function ModernGsocPage() {
                 alt="Operator-facing view of information overload during security operations"
                 className={articleImageClass}
               />
-              <figcaption className="mt-3 text-sm leading-6 text-gray-500">
-                Operator-facing view of information overload during
-                time-sensitive security operations.
-              </figcaption>
             </figure>
           </section>
 
@@ -765,10 +755,6 @@ function ModernGsocPage() {
                   alt="Event-driven workflow for automated Smart Wall layouts and operator context"
                   className={articleImageClass}
                 />
-                <figcaption className="mt-3 text-sm leading-6 text-gray-500">
-                  Event-driven workflow showing how critical events can trigger
-                  automated Smart Wall layouts and curated operator context.
-                </figcaption>
               </figure>
             </div>
           </section>
@@ -848,11 +834,11 @@ function CaseStudyPage() {
   ];
 
   if (caseStudy.slug === "unified-video-platform") {
-    return <UnifiedVideoPlatformPage caseStudy={caseStudy} />;
+    return <UnifiedVideoPlatformPage />;
   }
 
   if (caseStudy.slug === "video-analytics") {
-    return <VideoAnalyticsPage caseStudy={caseStudy} />;
+    return <VideoAnalyticsPage />;
   }
 
   if (caseStudy.slug === "modern-gsoc") {
@@ -875,6 +861,8 @@ function CaseStudyPage() {
             <img
               src={caseStudy.image}
               alt={caseStudy.title}
+              loading="lazy"
+              decoding="async"
               className="relative w-full rounded-xl border border-white/[0.13] bg-[#0c1018]/80 object-contain shadow-[0_18px_60px_rgba(0,0,0,0.28),0_0_18px_rgba(248,113,113,0.045)]"
             />
           </div>
@@ -928,6 +916,8 @@ function CaseStudyPage() {
 
 function App() {
   const [showNav, setShowNav] = useState(false);
+  const showNavRef = useRef(false);
+  const scrollFrameRef = useRef(0);
   const location = useLocation();
   const { pathname, hash } = location;
 
@@ -944,12 +934,27 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowNav(window.scrollY > 100);
+      if (scrollFrameRef.current) {
+        return;
+      }
+
+      scrollFrameRef.current = requestAnimationFrame(() => {
+        scrollFrameRef.current = 0;
+        const nextShowNav = window.scrollY > 100;
+
+        if (showNavRef.current !== nextShowNav) {
+          showNavRef.current = nextShowNav;
+          setShowNav(nextShowNav);
+        }
+      });
     };
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(scrollFrameRef.current);
+    };
   }, []);
 
   return (
@@ -1015,6 +1020,10 @@ function App() {
               <motion.img
                 src={profilePhoto}
                 alt="Chris Pawelczyk"
+                width="208"
+                height="208"
+                loading="eager"
+                decoding="async"
                 className="mx-auto h-48 w-48 rounded-full border border-red-400/40 object-cover shadow-[0_0_60px_rgba(248,113,113,0.24)] md:mx-0 md:h-52 md:w-52"
                 initial="hidden"
                 whileInView="visible"
@@ -1116,6 +1125,8 @@ function App() {
                       <img
                         src={caseStudy.image}
                         alt={caseStudy.title}
+                        loading="lazy"
+                        decoding="async"
                         className="relative h-full min-h-[22rem] w-full rounded-xl border border-white/[0.13] bg-[#0c1018]/82 object-contain object-center shadow-[0_18px_70px_rgba(0,0,0,0.34),0_0_24px_rgba(248,113,113,0.06)] md:min-h-[28rem] xl:min-h-[32rem]"
                       />
                     </div>

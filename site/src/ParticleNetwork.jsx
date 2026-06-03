@@ -10,6 +10,8 @@ const FIELD_LINK_DISTANCE = 108;
 const MOUSE_RADIUS = 250;
 const MOUSE_FORCE = 0.26;
 const GRID_SIZE = 150;
+const MAX_PIXEL_RATIO = 1.25;
+const TARGET_FRAME_INTERVAL = 1000 / 45;
 
 const CLUSTER_REGIONS = [
   { x: -0.04, y: -0.05, width: 0.56, height: 0.6, strength: 1 },
@@ -82,33 +84,52 @@ export default function ParticleNetwork() {
     let height = 0;
     let pixelRatio = 1;
     let startedAt = performance.now();
-    let isPaused = document.hidden;
+    let lastDrawAt = 0;
+    let resizeFrame = 0;
+    let mouseFrame = 0;
+    let pendingMouseEvent = null;
+    let isWindowFocused = document.hasFocus();
+
+    const isPaused = () => document.hidden || !isWindowFocused;
 
     const buildSpatialGrid = () => {
       const grid = new Map();
+      const cells = [];
 
       particles.forEach((particle, index) => {
         const cellX = Math.floor(particle.x / GRID_SIZE);
         const cellY = Math.floor(particle.y / GRID_SIZE);
-        const key = `${cellX},${cellY}`;
+        const key = cellX * 100000 + cellY;
         const cell = grid.get(key);
 
         if (cell) {
-          cell.push(index);
+          cell.indexes.push(index);
         } else {
-          grid.set(key, [index]);
+          const nextCell = { cellX, cellY, key, indexes: [index] };
+          cells.push(nextCell);
+          grid.set(key, nextCell);
         }
       });
 
-      return grid;
+      return { cells, grid };
     };
 
-    const draw = () => {
-      if (isPaused) {
+    const queueDraw = () => {
+      animationFrame = requestAnimationFrame(draw);
+    };
+
+    const draw = (now = performance.now()) => {
+      if (isPaused()) {
         return;
       }
 
-      const elapsed = performance.now() - startedAt;
+      if (!motionQuery.matches && now - lastDrawAt < TARGET_FRAME_INTERVAL) {
+        queueDraw();
+        return;
+      }
+
+      lastDrawAt = now;
+      const elapsed = now - startedAt;
 
       context.clearRect(0, 0, width, height);
 
@@ -157,68 +178,70 @@ export default function ParticleNetwork() {
         particle.y = Math.max(-60, Math.min(height + 60, particle.y));
       }
 
-      const grid = buildSpatialGrid();
-      const checkedPairs = new Set();
+      const { cells, grid } = buildSpatialGrid();
 
-      grid.forEach((cellIndexes, key) => {
-        const [cellX, cellY] = key.split(",").map(Number);
+      cells.forEach((cell) => {
+        const { cellX, cellY, indexes: cellIndexes } = cell;
 
         for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
           for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
-            const neighborIndexes = grid.get(`${cellX + offsetX},${cellY + offsetY}`);
+            const neighborKey = (cellX + offsetX) * 100000 + cellY + offsetY;
+            const neighbor = grid.get(neighborKey);
 
-            if (!neighborIndexes) {
+            if (!neighbor || neighbor.key < cell.key) {
               continue;
             }
 
-            cellIndexes.forEach((firstIndex) => {
-              neighborIndexes.forEach((secondIndex) => {
-                if (secondIndex <= firstIndex) {
-                  return;
-                }
+            cellIndexes.forEach((firstIndex, firstPosition) => {
+              const neighborIndexes = neighbor.indexes;
+              const secondStart = neighbor.key === cell.key ? firstPosition + 1 : 0;
 
-                const pairKey = `${firstIndex}:${secondIndex}`;
-
-                if (checkedPairs.has(pairKey)) {
-                  return;
-                }
-
-                checkedPairs.add(pairKey);
-
+              for (let secondPosition = secondStart; secondPosition < neighborIndexes.length; secondPosition += 1) {
+                const secondIndex = neighborIndexes[secondPosition];
                 const first = particles[firstIndex];
                 const second = particles[secondIndex];
-          const bothCluster = first.cluster && second.cluster;
-          const midX = (first.x + second.x) / 2;
-          const midY = (first.y + second.y) / 2;
-          const mouseDistance = Math.hypot(midX - mouse.x, midY - mouse.y);
-          const nearMouse = mouseDistance < MOUSE_RADIUS;
-          const linkDistance =
-            (bothCluster ? CLUSTER_LINK_DISTANCE : FIELD_LINK_DISTANCE) + (nearMouse ? 52 : 0);
-          const distance = Math.hypot(first.x - second.x, first.y - second.y);
+                const bothCluster = first.cluster && second.cluster;
+                const midX = (first.x + second.x) / 2;
+                const midY = (first.y + second.y) / 2;
+                const mouseDistance = Math.hypot(midX - mouse.x, midY - mouse.y);
+                const nearMouse = mouseDistance < MOUSE_RADIUS;
+                const linkDistance =
+                  (bothCluster ? CLUSTER_LINK_DISTANCE : FIELD_LINK_DISTANCE) +
+                  (nearMouse ? 52 : 0);
+                const distance = Math.hypot(first.x - second.x, first.y - second.y);
 
-          if (distance < linkDistance) {
-            const mouseBoost =
-              mouseDistance < MOUSE_RADIUS ? (1 - mouseDistance / MOUSE_RADIUS) * 0.34 : 0;
-            const clusterStrength = bothCluster ? (first.strength + second.strength) / 2 : 0.65;
-            const baseOpacity = bothCluster ? 0.22 + clusterStrength * 0.13 : 0.12;
-            const opacity = (1 - distance / linkDistance) * baseOpacity + mouseBoost;
-            const gradient = context.createLinearGradient(first.x, first.y, second.x, second.y);
+                if (distance < linkDistance) {
+                  const mouseBoost =
+                    mouseDistance < MOUSE_RADIUS
+                      ? (1 - mouseDistance / MOUSE_RADIUS) * 0.34
+                      : 0;
+                  const clusterStrength = bothCluster
+                    ? (first.strength + second.strength) / 2
+                    : 0.65;
+                  const baseOpacity = bothCluster ? 0.22 + clusterStrength * 0.13 : 0.12;
+                  const opacity = (1 - distance / linkDistance) * baseOpacity + mouseBoost;
+                  const gradient = context.createLinearGradient(
+                    first.x,
+                    first.y,
+                    second.x,
+                    second.y,
+                  );
 
-            gradient.addColorStop(0, `rgba(55, 170, 255, ${opacity})`);
-            gradient.addColorStop(0.55, `rgba(120, 220, 255, ${opacity * 0.82})`);
-            gradient.addColorStop(1, `rgba(87, 118, 255, ${opacity * 0.72})`);
+                  gradient.addColorStop(0, `rgba(55, 170, 255, ${opacity})`);
+                  gradient.addColorStop(0.55, `rgba(120, 220, 255, ${opacity * 0.82})`);
+                  gradient.addColorStop(1, `rgba(87, 118, 255, ${opacity * 0.72})`);
 
-            context.strokeStyle = gradient;
-            context.lineWidth = bothCluster ? 1.25 : nearMouse ? 1 : 0.8;
-            context.shadowColor = "rgba(58, 169, 255, 0.28)";
-            context.shadowBlur = nearMouse || bothCluster ? 6 : 0;
-            context.beginPath();
-            context.moveTo(first.x, first.y);
-            context.lineTo(second.x, second.y);
-            context.stroke();
-            context.shadowBlur = 0;
-          }
-              });
+                  context.strokeStyle = gradient;
+                  context.lineWidth = bothCluster ? 1.25 : nearMouse ? 1 : 0.8;
+                  context.shadowColor = "rgba(58, 169, 255, 0.28)";
+                  context.shadowBlur = nearMouse || bothCluster ? 6 : 0;
+                  context.beginPath();
+                  context.moveTo(first.x, first.y);
+                  context.lineTo(second.x, second.y);
+                  context.stroke();
+                  context.shadowBlur = 0;
+                }
+              }
             });
           }
         }
@@ -242,17 +265,17 @@ export default function ParticleNetwork() {
         context.shadowBlur = 0;
       });
 
-      if (!motionQuery.matches && !isPaused) {
+      if (!motionQuery.matches && !isPaused()) {
         mouse.vx *= 0.82;
         mouse.vy *= 0.82;
-        animationFrame = requestAnimationFrame(draw);
+        queueDraw();
       }
     };
 
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+      pixelRatio = Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO);
       canvas.width = width * pixelRatio;
       canvas.height = height * pixelRatio;
       canvas.style.width = `${width}px`;
@@ -269,20 +292,41 @@ export default function ParticleNetwork() {
         ...Array.from({ length: particleCount.field }, () => createParticle(width, height)),
       ];
       cancelAnimationFrame(animationFrame);
-      if (!isPaused) {
+      lastDrawAt = 0;
+      if (!isPaused()) {
         draw();
       }
     };
 
+    const requestResize = () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(resize);
+    };
+
     const handleMouseMove = (event) => {
-      if (isPaused) {
+      if (isPaused()) {
         return;
       }
 
-      mouse.vx = event.clientX - mouse.x;
-      mouse.vy = event.clientY - mouse.y;
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
+      pendingMouseEvent = event;
+
+      if (mouseFrame) {
+        return;
+      }
+
+      mouseFrame = requestAnimationFrame(() => {
+        mouseFrame = 0;
+
+        if (!pendingMouseEvent) {
+          return;
+        }
+
+        mouse.vx = pendingMouseEvent.clientX - mouse.x;
+        mouse.vy = pendingMouseEvent.clientY - mouse.y;
+        mouse.x = pendingMouseEvent.clientX;
+        mouse.y = pendingMouseEvent.clientY;
+        pendingMouseEvent = null;
+      });
     };
 
     const handleMouseLeave = () => {
@@ -293,32 +337,47 @@ export default function ParticleNetwork() {
     };
 
     const handleVisibilityChange = () => {
-      isPaused = document.hidden;
-
-      if (isPaused) {
+      if (isPaused()) {
         cancelAnimationFrame(animationFrame);
       } else if (!motionQuery.matches) {
         startedAt = performance.now();
-        animationFrame = requestAnimationFrame(draw);
+        lastDrawAt = 0;
+        queueDraw();
       } else {
         draw();
       }
     };
 
+    const handleWindowBlur = () => {
+      isWindowFocused = false;
+      cancelAnimationFrame(animationFrame);
+    };
+
+    const handleWindowFocus = () => {
+      isWindowFocused = true;
+      handleVisibilityChange();
+    };
+
     resize();
-    window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", requestResize, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("blur", handleWindowBlur);
+    window.addEventListener("focus", handleWindowFocus);
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    motionQuery.addEventListener("change", resize);
+    motionQuery.addEventListener("change", requestResize);
 
     return () => {
       cancelAnimationFrame(animationFrame);
-      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(resizeFrame);
+      cancelAnimationFrame(mouseFrame);
+      window.removeEventListener("resize", requestResize);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("blur", handleWindowBlur);
+      window.removeEventListener("focus", handleWindowFocus);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      motionQuery.removeEventListener("change", resize);
+      motionQuery.removeEventListener("change", requestResize);
     };
   }, []);
 
