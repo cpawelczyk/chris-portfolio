@@ -4,16 +4,22 @@ import { createPortal } from "react-dom";
 import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
 import ParticleNetwork from "./ParticleNetwork";
 import {
+  ArrowDown,
+  Atom,
+  Bot,
+  BrainCircuit,
   Server,
   ShieldCheck,
   Video,
   KeyRound,
   Cloud,
+  GitBranch,
   Terminal,
   Workflow,
   MonitorCog,
   Network,
   TicketCheck,
+  Wind,
   X,
 } from "lucide-react";
 import profilePhoto from "./assets/profile.png";
@@ -140,6 +146,16 @@ const modernGsocFocusAreas = [
   "Operational Automation",
 ];
 
+const buildTechnologies = [
+  { label: "React", icon: Atom },
+  { label: "Tailwind CSS", icon: Wind },
+  { label: "Framer Motion", icon: Workflow },
+  { label: "Azure Static Web Apps", icon: Cloud },
+  { label: "Git", icon: GitBranch },
+  { label: "OpenAI Codex", icon: Bot },
+  { label: "GPT-5.5", icon: BrainCircuit },
+];
+
 const backLinkClass =
   "inline-flex rounded-full border border-red-400/50 px-5 py-2 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white";
 const homeSectionHeadingClass =
@@ -165,6 +181,10 @@ const caseStudyThumbnailImageClass =
   "h-full w-full scale-[1.075] object-cover object-center";
 const focusPillClass =
   "rounded-full border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-4 py-2 text-sm font-semibold text-red-200 shadow-[0_12px_28px_rgba(0,0,0,0.2)]";
+const redGlassSurfaceClass =
+  "border-2 border-red-300/35 bg-[linear-gradient(135deg,rgba(92,25,32,0.42),rgba(30,17,24,0.96))] ring-1 ring-red-200/[0.1] shadow-[0_14px_34px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.1),0_0_20px_rgba(248,113,113,0.1)] transition duration-300 hover:border-red-200/55 hover:bg-[linear-gradient(135deg,rgba(112,31,39,0.5),rgba(36,18,26,0.98))] hover:text-red-100 hover:shadow-[0_16px_38px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.12),0_0_26px_rgba(248,113,113,0.18)]";
+const heroCtaClass =
+  "group mt-12 inline-flex items-center justify-center gap-2 rounded-sm border border-red-400/70 bg-[#111316]/20 px-8 py-3 text-sm font-semibold text-red-300 ring-1 ring-white/[0.04] shadow-[0_14px_34px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.045)] backdrop-blur-sm transition duration-300 hover:border-red-300 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_48px_rgba(0,0,0,0.3),0_0_26px_rgba(248,113,113,0.18)]";
 const homepageSectionIds = [
   "home",
   "about",
@@ -324,8 +344,7 @@ function UnifiedVideoPlatformPage() {
                 regional preferences, and independent projects have left you
                 with a patchwork of surveillance systems: different
                 manufacturers, different management interfaces, proprietary
-                hardware, standalone recorders, and limited centralized
-                visibility.
+                hardware, and limited centralized visibility.
               </p>
               <p>
                 What was once considered a building system has quietly become
@@ -333,9 +352,8 @@ function UnifiedVideoPlatformPage() {
               </p>
               <p>
                 At the same time, your cybersecurity department is increasing scrutiny.
-                Unsupported operating systems, aging hardware, inconsistent
-                patching practices, and limited visibility into system health
-                create growing operational and security risks. Maintaining the
+                Unsupported operating systems, aging hardware, and inconsistent
+                patching practices create growing operational and security risks. Maintaining the
                 environment becomes increasingly expensive, while expanding or
                 modernizing it becomes increasingly difficult.
               </p>
@@ -1079,8 +1097,13 @@ function App() {
             I modernize complex security technology platforms.
           </h1>
 
-          <a href="#about" className="mt-12 border border-red-400 px-8 py-3 text-red-400 transition hover:bg-red-400 hover:text-white">
-            Learn More ↓
+          <a href="#about" className={heroCtaClass}>
+            <span>Learn More</span>
+            <ArrowDown
+              aria-hidden="true"
+              className="h-4 w-4 transition duration-300 group-hover:translate-y-0.5"
+              strokeWidth={1.8}
+            />
           </a>
         </section>
 
@@ -1261,7 +1284,7 @@ function App() {
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=cjpawelczyk@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
+                className="rounded-xl border-2 border-red-300/35 bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 ring-1 ring-red-200/[0.1] shadow-[0_16px_42px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08),0_0_20px_rgba(248,113,113,0.08)] transition duration-300 hover:border-red-200/55 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12),0_0_26px_rgba(248,113,113,0.18)]"
               >
                 Email
               </a>
@@ -1269,7 +1292,7 @@ function App() {
                 href="https://www.linkedin.com/in/chrispawelczyk"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
+                className="rounded-xl border-2 border-red-300/35 bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 ring-1 ring-red-200/[0.1] shadow-[0_16px_42px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08),0_0_20px_rgba(248,113,113,0.08)] transition duration-300 hover:border-red-200/55 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12),0_0_26px_rgba(248,113,113,0.18)]"
               >
                 LinkedIn
               </a>
@@ -1277,7 +1300,7 @@ function App() {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:border-red-400/70 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.1)]"
+                className="rounded-xl border-2 border-red-300/35 bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 ring-1 ring-red-200/[0.1] shadow-[0_16px_42px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08),0_0_20px_rgba(248,113,113,0.08)] transition duration-300 hover:border-red-200/55 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12),0_0_26px_rgba(248,113,113,0.18)]"
               >
                 Resume
               </a>
@@ -1349,6 +1372,29 @@ function App() {
                 and problem solving when paired with strong technical and
                 operational foundations.
               </motion.p>
+              <motion.div
+                className="flex flex-wrap justify-center gap-3 pt-5"
+                variants={buildNotesReveal}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0.01 }
+                    : { duration: 0.52, ease: "easeOut" }
+                }
+              >
+                {buildTechnologies.map(({ label, icon: Icon }) => (
+                  <span
+                    key={label}
+                    className={`${focusPillClass} inline-flex items-center gap-2 ${redGlassSurfaceClass}`}
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      className="h-4 w-4 shrink-0 text-red-200 drop-shadow-[0_0_8px_rgba(248,113,113,0.32)]"
+                      strokeWidth={1.8}
+                    />
+                    {label}
+                  </span>
+                ))}
+              </motion.div>
             </div>
           </motion.div>
         </section>
