@@ -156,6 +156,10 @@ const buildTechnologies = [
   { label: "GPT-5.5", icon: BrainCircuit },
 ];
 
+const caseStudyAnchorPrefix = "case-study";
+
+const getCaseStudyAnchor = (slug) => `${caseStudyAnchorPrefix}-${slug}`;
+
 const backLinkClass =
   "inline-flex rounded-full border border-red-400/50 px-5 py-2 text-sm font-semibold text-red-300 transition hover:border-red-400 hover:bg-red-400 hover:text-white";
 const homeSectionHeadingClass =
@@ -167,18 +171,18 @@ const contactSectionHeadingClass =
 const contactSectionAccentClass =
   "mx-auto mt-6 block h-0.5 w-48 bg-gradient-to-r from-transparent via-red-400 to-transparent shadow-[0_0_24px_rgba(248,113,113,0.66)] md:w-64 lg:w-80";
 const navLinkClass =
-  "relative py-1 text-gray-300 transition duration-300 after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:bg-red-400 after:shadow-[0_0_12px_rgba(248,113,113,0.62)] after:transition-transform after:duration-300 hover:text-white hover:after:scale-x-100";
+  "relative shrink-0 whitespace-nowrap py-1 leading-none text-gray-300 transition duration-300 after:absolute after:inset-x-0 after:-bottom-2 after:h-0.5 after:origin-center after:scale-x-0 after:bg-red-400 after:shadow-[0_0_12px_rgba(248,113,113,0.62)] after:transition-transform after:duration-300 hover:text-white hover:after:scale-x-100 sm:leading-normal sm:after:-bottom-1";
 const activeNavLinkClass = "text-white after:scale-x-100";
 const articleSurfaceClass =
   "mx-auto max-w-4xl rounded-3xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(20,24,34,0.9),rgba(12,15,22,0.96))] p-6 shadow-[0_26px_90px_rgba(0,0,0,0.32),0_0_34px_rgba(248,113,113,0.045)] md:p-10 lg:p-12";
 const articleImageClass =
   "w-full rounded-xl border border-white/[0.13] shadow-[0_18px_60px_rgba(0,0,0,0.26),0_0_22px_rgba(248,113,113,0.045)]";
 const caseStudyThumbnailFrameClass =
-  "flex h-full items-center justify-center p-5 md:p-6";
+  "flex h-full items-center justify-center p-4 sm:p-5 md:p-6";
 const caseStudyThumbnailViewportClass =
   "aspect-[3/2] w-full overflow-hidden rounded-xl border border-white/[0.13] shadow-[0_18px_70px_rgba(0,0,0,0.34),0_0_24px_rgba(248,113,113,0.06)]";
 const caseStudyThumbnailImageClass =
-  "h-full w-full scale-[1.075] object-cover object-center";
+  "h-full w-full scale-[1.02] object-cover object-center md:scale-[1.075]";
 const focusPillClass =
   "rounded-full border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-4 py-2 text-sm font-semibold text-red-200 shadow-[0_12px_28px_rgba(0,0,0,0.2)]";
 const redGlassSurfaceClass =
@@ -192,6 +196,28 @@ const homepageSectionIds = [
   "contact",
   "build-notes",
 ];
+
+const desktopMediaQuery = "(min-width: 768px)";
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window === "undefined" ? true : window.matchMedia(desktopMediaQuery).matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(desktopMediaQuery);
+    const handleChange = () => setIsDesktop(mediaQuery.matches);
+
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  return isDesktop;
+}
 
 function ScrollToHash() {
   const { hash, pathname } = useLocation();
@@ -212,20 +238,20 @@ function ScrollToHash() {
 
 function PageTransition({ children, transitionKey }) {
   const shouldReduceMotion = useReducedMotion();
+  const isDesktop = useIsDesktop();
+  const shouldUseTransition = isDesktop && !shouldReduceMotion;
 
   return (
     <motion.div
       key={transitionKey}
       initial={
-        shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12, scale: 0.995 }
+        shouldUseTransition ? { opacity: 0, y: 12, scale: 0.995 } : { opacity: 1 }
       }
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={
-        shouldReduceMotion
-          ? { duration: 0.01 }
-          : { duration: 0.24, ease: "easeOut" }
+        shouldUseTransition ? { duration: 0.24, ease: "easeOut" } : { duration: 0.01 }
       }
-      style={{ willChange: shouldReduceMotion ? "auto" : "transform, opacity" }}
+      style={{ willChange: shouldUseTransition ? "transform, opacity" : "auto" }}
     >
       {children}
     </motion.div>
@@ -314,18 +340,20 @@ function LightboxImage({ src, alt, className }) {
 }
 
 function UnifiedVideoPlatformPage() {
+  const backToCard = `/#${getCaseStudyAnchor("unified-video-platform")}`;
+
   return (
-    <section className="min-h-screen px-6 py-24 md:px-12">
+    <section className="min-h-screen px-7 py-24 sm:px-6 md:px-12">
       <article className={articleSurfaceClass}>
         <Link
-          to="/#case-studies"
+          to={backToCard}
           className={backLinkClass}
         >
           Back to Portfolio
         </Link>
 
         <header className="mt-12">
-          <h1 className="text-4xl font-bold leading-tight md:text-6xl">
+          <h1 className="text-3xl font-bold leading-tight sm:text-4xl md:text-6xl">
             Transforming Distributed Video Systems into a Unified Platform
           </h1>
           <p className="mt-6 text-xl italic leading-8 text-gray-300">
@@ -474,7 +502,7 @@ function UnifiedVideoPlatformPage() {
           </section>
         </div>
 
-        <Link to="/#case-studies" className={`${backLinkClass} mt-12`}>
+        <Link to={backToCard} className={`${backLinkClass} mt-12`}>
           Back to Portfolio
         </Link>
       </article>
@@ -483,15 +511,17 @@ function UnifiedVideoPlatformPage() {
 }
 
 function VideoAnalyticsPage() {
+  const backToCard = `/#${getCaseStudyAnchor("video-analytics")}`;
+
   return (
-    <section className="min-h-screen px-6 py-24 md:px-12">
+    <section className="min-h-screen px-7 py-24 sm:px-6 md:px-12">
       <article className={articleSurfaceClass}>
-        <Link to="/#case-studies" className={backLinkClass}>
+        <Link to={backToCard} className={backLinkClass}>
           Back to Portfolio
         </Link>
 
         <header className="mt-12">
-          <h1 className="text-4xl font-bold leading-tight md:text-6xl">
+          <h1 className="text-3xl font-bold leading-tight sm:text-4xl md:text-6xl">
             Operational Intelligence Through Video Analytics
           </h1>
           <p className="mt-6 text-xl italic leading-8 text-gray-300">
@@ -658,7 +688,7 @@ function VideoAnalyticsPage() {
           </section>
         </div>
 
-        <Link to="/#case-studies" className={`${backLinkClass} mt-12`}>
+        <Link to={backToCard} className={`${backLinkClass} mt-12`}>
           Back to Portfolio
         </Link>
       </article>
@@ -667,15 +697,17 @@ function VideoAnalyticsPage() {
 }
 
 function ModernGsocPage() {
+  const backToCard = `/#${getCaseStudyAnchor("modern-gsoc")}`;
+
   return (
-    <section className="min-h-screen px-6 py-24 md:px-12">
+    <section className="min-h-screen px-7 py-24 sm:px-6 md:px-12">
       <article className={articleSurfaceClass}>
-        <Link to="/#case-studies" className={backLinkClass}>
+        <Link to={backToCard} className={backLinkClass}>
           Back to Portfolio
         </Link>
 
         <header className="mt-12">
-          <h1 className="text-4xl font-bold leading-tight md:text-6xl">
+          <h1 className="text-3xl font-bold leading-tight sm:text-4xl md:text-6xl">
             Modernizing the GSOC: Automated Video Workflows for Situational
             Awareness
           </h1>
@@ -829,7 +861,7 @@ function ModernGsocPage() {
           </section>
         </div>
 
-        <Link to="/#case-studies" className={`${backLinkClass} mt-12`}>
+        <Link to={backToCard} className={`${backLinkClass} mt-12`}>
           Back to Portfolio
         </Link>
       </article>
@@ -877,7 +909,7 @@ function CaseStudyPage() {
   }
 
   return (
-    <section className="min-h-screen px-6 py-24 md:px-12">
+    <section className="min-h-screen px-7 py-24 sm:px-6 md:px-12">
       <div className="mx-auto max-w-6xl rounded-3xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(20,24,34,0.88),rgba(12,15,22,0.96))] p-6 shadow-[0_26px_90px_rgba(0,0,0,0.32),0_0_34px_rgba(248,113,113,0.045)] md:p-10 lg:p-12">
         <Link
           to="/#case-studies"
@@ -902,7 +934,7 @@ function CaseStudyPage() {
             <p className="text-sm uppercase tracking-[0.35em] text-red-400">
               Case Study
             </p>
-            <h1 className="mt-4 text-4xl font-bold leading-tight md:text-6xl">
+            <h1 className="mt-4 text-3xl font-bold leading-tight sm:text-4xl md:text-6xl">
               {caseStudy.title}
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-300">
@@ -950,10 +982,12 @@ function App() {
   const [activeSection, setActiveSection] = useState("home");
   const showNavRef = useRef(false);
   const shouldReduceMotion = useReducedMotion();
+  const isDesktop = useIsDesktop();
+  const shouldUseMotion = isDesktop && !shouldReduceMotion;
   const location = useLocation();
   const { pathname, hash } = location;
   const buildNotesReveal = {
-    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 },
+    hidden: shouldUseMotion ? { opacity: 0, y: 18 } : { opacity: 1, y: 0 },
     visible: { opacity: 1, y: 0 },
   };
 
@@ -1058,12 +1092,12 @@ function App() {
     <main className="relative min-h-screen overflow-hidden bg-[#0f0f10] text-white">
       <ScrollToHash />
       <div className="ambient-background pointer-events-none fixed inset-0 z-0">
-        <ParticleNetwork />
+        {isDesktop && <ParticleNetwork />}
       </div>
 
       <div className="relative z-10">
         <nav
-          className={`fixed left-0 top-0 z-50 flex w-full justify-center gap-6 border-b border-white/[0.12] bg-[#111316]/72 px-6 py-4 text-sm font-semibold tracking-wide shadow-[0_12px_44px_rgba(0,0,0,0.24),0_0_18px_rgba(248,113,113,0.035)] backdrop-blur-xl transition duration-500 md:justify-end md:gap-10 md:px-12 md:text-base ${
+          className={`fixed left-0 top-0 z-50 flex min-h-14 w-full items-center justify-start gap-4 overflow-x-auto border-b border-white/[0.12] bg-[#111316]/72 px-4 py-3.5 text-[0.75rem] font-semibold tracking-wide shadow-[0_12px_44px_rgba(0,0,0,0.24),0_0_18px_rgba(248,113,113,0.035)] backdrop-blur-xl transition duration-500 [-ms-overflow-style:none] [scrollbar-width:none] sm:min-h-0 sm:items-stretch sm:justify-center sm:gap-6 sm:px-6 sm:py-4 sm:text-sm md:justify-end md:gap-10 md:px-12 md:text-base [&::-webkit-scrollbar]:hidden ${
             showNav
               ? "translate-y-0 opacity-100"
               : "pointer-events-none -translate-y-full opacity-0"
@@ -1091,7 +1125,7 @@ function App() {
               <PageTransition transitionKey={pathname}>
               <>
         <section id="home" className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-          <h1 className="max-w-5xl text-5xl font-light leading-tight md:text-7xl">
+          <h1 className="max-w-5xl text-4xl font-light leading-tight sm:text-5xl md:text-7xl">
             Hello, I&apos;m <span className="text-red-400">Chris</span>.
             <br />
             I modernize complex security technology platforms.
@@ -1113,11 +1147,13 @@ function App() {
         >
           <motion.h2
             className={homeSectionHeadingClass}
-            initial="hidden"
-            whileInView="visible"
+            initial={shouldUseMotion ? "hidden" : false}
+            whileInView={shouldUseMotion ? "visible" : undefined}
             viewport={{ once: false, amount: 0.3 }}
             variants={fadeIn}
-            transition={{ duration: 0.55, ease: "easeOut" }}
+            transition={
+              shouldUseMotion ? { duration: 0.55, ease: "easeOut" } : { duration: 0.01 }
+            }
           >
             About
             <span className={homeSectionAccentClass} />
@@ -1133,19 +1169,25 @@ function App() {
                 loading="eager"
                 decoding="async"
                 className="mx-auto h-48 w-48 rounded-full border border-red-400/40 object-cover shadow-[0_0_60px_rgba(248,113,113,0.24)] md:mx-0 md:h-52 md:w-52"
-                initial="hidden"
-                whileInView="visible"
+                initial={shouldUseMotion ? "hidden" : false}
+                whileInView={shouldUseMotion ? "visible" : undefined}
                 viewport={{ once: false, amount: 0.3 }}
                 variants={photoIn}
-                transition={{ duration: 0.65, ease: "easeOut" }}
+                transition={
+                  shouldUseMotion ? { duration: 0.65, ease: "easeOut" } : { duration: 0.01 }
+                }
               />
 
               <motion.div
-                initial="hidden"
-                whileInView="visible"
+                initial={shouldUseMotion ? "hidden" : false}
+                whileInView={shouldUseMotion ? "visible" : undefined}
                 viewport={{ once: false, amount: 0.3 }}
                 variants={textIn}
-                transition={{ duration: 0.55, delay: 0.18, ease: "easeOut" }}
+                transition={
+                  shouldUseMotion
+                    ? { duration: 0.55, delay: 0.18, ease: "easeOut" }
+                    : { duration: 0.01 }
+                }
               >
                 <h3 className="mt-7 text-3xl font-bold md:text-4xl">Chris Pawelczyk</h3>
                 <p className="mt-2 text-red-400">
@@ -1171,8 +1213,8 @@ function App() {
 
             <motion.div
               className="grid grid-cols-2 gap-4 sm:grid-cols-3"
-              initial="hidden"
-              whileInView="visible"
+              initial={shouldUseMotion ? "hidden" : false}
+              whileInView={shouldUseMotion ? "visible" : undefined}
               viewport={{ once: false, amount: 0.3 }}
               variants={skillGridIn}
             >
@@ -1180,7 +1222,9 @@ function App() {
                 <motion.div
                   key={label}
                   variants={skillCardIn}
-                  transition={{ duration: 0.45, ease: "easeOut" }}
+                  transition={
+                    shouldUseMotion ? { duration: 0.45, ease: "easeOut" } : { duration: 0.01 }
+                  }
                 >
                   <div
                     className={`flex min-h-32 flex-col items-center justify-center rounded-xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(24,29,40,0.76),rgba(13,16,24,0.9))] p-5 text-center shadow-[0_16px_42px_rgba(0,0,0,0.22),0_0_20px_rgba(248,113,113,0.035)] transition hover:-translate-y-1 hover:border-red-400/30 hover:shadow-[0_20px_55px_rgba(0,0,0,0.28),0_0_26px_rgba(248,113,113,0.09)] ${
@@ -1222,8 +1266,9 @@ function App() {
               return (
                 <Link
                   key={caseStudy.title}
+                  id={getCaseStudyAnchor(caseStudy.slug)}
                   to={`/case-studies/${caseStudy.slug}`}
-                  className="group block cursor-pointer rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f0f10]"
+                  className="group block scroll-mt-28 cursor-pointer rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f0f10] md:scroll-mt-32"
                 >
                   <article className="grid overflow-hidden rounded-2xl border border-white/[0.13] bg-[linear-gradient(135deg,rgba(22,27,38,0.78),rgba(12,16,24,0.92))] shadow-[0_24px_90px_rgba(0,0,0,0.28),0_0_28px_rgba(248,113,113,0.035)] transition duration-300 group-hover:-translate-y-1 group-hover:border-red-400/25 group-hover:shadow-[0_28px_100px_rgba(0,0,0,0.34),0_0_34px_rgba(248,113,113,0.075)] md:grid-cols-2">
                     <div
@@ -1243,17 +1288,17 @@ function App() {
                     </div>
 
                     <div
-                      className={`flex flex-col justify-center p-8 md:p-12 ${
+                      className={`flex flex-col justify-center p-6 pt-3 sm:p-8 md:p-12 ${
                         imageFirst ? "md:order-2" : "md:order-1"
                       }`}
                     >
-                      <h3 className="text-3xl font-bold leading-tight md:text-4xl">
+                      <h3 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">
                         {caseStudy.title}
                       </h3>
-                      <p className="mt-5 text-lg leading-8 text-gray-300">
+                      <p className="mt-4 text-base leading-7 text-gray-300 sm:text-lg sm:leading-8">
                         {caseStudy.description}
                       </p>
-                      <span className="mt-8 w-fit rounded-full border border-red-400/45 bg-[#111827]/45 px-6 py-3 text-sm font-semibold text-red-200 transition group-hover:border-red-400/80 group-hover:bg-red-400 group-hover:text-white">
+                      <span className="mt-6 w-fit rounded-full border border-red-400/45 bg-[#111827]/45 px-6 py-3 text-sm font-semibold text-red-200 transition group-hover:border-red-400/80 group-hover:bg-red-400 group-hover:text-white sm:mt-8">
                         Learn More
                       </span>
                     </div>
@@ -1266,9 +1311,9 @@ function App() {
 
         <section
           id="contact"
-          className="flex min-h-screen scroll-mt-24 flex-col justify-between px-6 py-28 md:px-12"
+          className="flex min-h-screen scroll-mt-24 flex-col justify-between px-6 py-20 sm:py-28 md:px-12"
         >
-          <div className="mx-auto flex w-full max-w-5xl flex-1 -translate-y-8 flex-col items-center justify-center text-center md:-translate-y-12">
+          <div className="mx-auto flex w-full max-w-5xl flex-1 -translate-y-4 flex-col items-center justify-center text-center sm:-translate-y-8 md:-translate-y-12">
             <h2 className={contactSectionHeadingClass}>
               Let&apos;s connect.
               <span className={contactSectionAccentClass} />
@@ -1297,7 +1342,7 @@ function App() {
                 LinkedIn
               </a>
               <a
-                href="/resume.pdf"
+                href="/Chris_Pawelczyk_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-xl border-2 border-red-300/35 bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 ring-1 ring-red-200/[0.1] shadow-[0_16px_42px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08),0_0_20px_rgba(248,113,113,0.08)] transition duration-300 hover:border-red-200/55 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12),0_0_26px_rgba(248,113,113,0.18)]"
@@ -1314,22 +1359,20 @@ function App() {
         >
           <motion.div
             className="mx-auto w-full max-w-4xl -translate-y-10 md:-translate-y-14"
-            initial="hidden"
-            whileInView="visible"
+            initial={shouldUseMotion ? "hidden" : false}
+            whileInView={shouldUseMotion ? "visible" : undefined}
             viewport={{ once: true, amount: 0.35 }}
             transition={
-              shouldReduceMotion
-                ? { duration: 0.01 }
-                : { staggerChildren: 0.13 }
+              shouldUseMotion ? { staggerChildren: 0.13 } : { duration: 0.01 }
             }
           >
             <motion.h2
               className={homeSectionHeadingClass}
               variants={buildNotesReveal}
               transition={
-                shouldReduceMotion
-                  ? { duration: 0.01 }
-                  : { duration: 0.48, ease: "easeOut" }
+                shouldUseMotion
+                  ? { duration: 0.48, ease: "easeOut" }
+                  : { duration: 0.01 }
               }
             >
               Build Notes
@@ -1338,33 +1381,33 @@ function App() {
               className={homeSectionAccentClass}
               variants={buildNotesReveal}
               transition={
-                shouldReduceMotion
-                  ? { duration: 0.01 }
-                  : { duration: 0.38, ease: "easeOut" }
+                shouldUseMotion
+                  ? { duration: 0.38, ease: "easeOut" }
+                  : { duration: 0.01 }
               }
             />
             <div className="mx-auto mt-12 max-w-3xl space-y-7 text-left text-lg font-medium leading-8 text-gray-200 md:text-xl md:leading-9">
               <motion.p
                 variants={buildNotesReveal}
                 transition={
-                  shouldReduceMotion
-                    ? { duration: 0.01 }
-                    : { duration: 0.52, ease: "easeOut" }
+                  shouldUseMotion
+                    ? { duration: 0.52, ease: "easeOut" }
+                    : { duration: 0.01 }
                 }
               >
-                Beyond showcasing my professional experience, this portfolio was
-                also a personal project to explore modern AI-assisted
-                development workflows. While I had no prior experience building
-                React applications, I used AI as a collaborative tool to design,
-                build, refine, troubleshoot, and optimize the site from concept
-                to completion.
+                Beyond showcasing my professional experience, this portfolio
+                became a personal project to explore modern AI-assisted
+                development workflows. While I had no prior experience
+                building React applications, I used AI as a collaborative tool
+                to design, build, refine, troubleshoot, and optimize the site
+                from concept to completion.
               </motion.p>
               <motion.p
                 variants={buildNotesReveal}
                 transition={
-                  shouldReduceMotion
-                    ? { duration: 0.01 }
-                    : { duration: 0.52, ease: "easeOut" }
+                  shouldUseMotion
+                    ? { duration: 0.52, ease: "easeOut" }
+                    : { duration: 0.01 }
                 }
               >
                 The result is both a portfolio of my professional work and a
@@ -1376,9 +1419,9 @@ function App() {
                 className="flex flex-wrap justify-center gap-3 pt-5"
                 variants={buildNotesReveal}
                 transition={
-                  shouldReduceMotion
-                    ? { duration: 0.01 }
-                    : { duration: 0.52, ease: "easeOut" }
+                  shouldUseMotion
+                    ? { duration: 0.52, ease: "easeOut" }
+                    : { duration: 0.01 }
                 }
               >
                 {buildTechnologies.map(({ label, icon: Icon }) => (
