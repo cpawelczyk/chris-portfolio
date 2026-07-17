@@ -452,14 +452,6 @@ function UnifiedVideoPlatformPage() {
                 designed for resiliency, scalability, and long-term
                 supportability.
               </p>
-              <p>
-                Standardizing on a common platform enabled centralized
-                management, consistent operational practices, and a unified
-                technology architecture across geographically distributed
-                facilities. The result was improved visibility, simplified
-                support, stronger cybersecurity alignment, and a more
-                sustainable lifecycle management strategy.
-              </p>
             </div>
           </section>
 
@@ -608,9 +600,9 @@ function VideoAnalyticsPage() {
             <div className="mt-5 space-y-5">
               <p>
                 Using Axis cameras integrated with the Milestone XProtect
-                platform, the solution leveraged Axis Object Analytics to
-                generate operational intelligence from existing camera
-                deployments.
+                platform, the solution leveraged both Axis Object Analytics and
+                BriefCam to generate operational intelligence from existing
+                camera deployments.
               </p>
               <p>
                 Rather than focusing solely on security events, analytics were
@@ -629,12 +621,6 @@ function VideoAnalyticsPage() {
                 This transformed the surveillance platform from a passive
                 security system into an active source of operational insight.
               </p>
-              <p>
-                By utilizing infrastructure that was already deployed throughout
-                the property, the organization was able to generate meaningful
-                analytics without requiring large-scale technology investments.
-              </p>
-
               <figure className="py-3">
                 <LightboxImage
                   src={cs2ApproachPhoto}
@@ -722,8 +708,8 @@ function ModernGsocPage() {
             <h2 className="text-3xl font-bold text-white">Executive Summary</h2>
             <div className="mt-5 space-y-5">
               <p>
-                You&apos;re responsible for a Global Security Operations Center
-                (GSOC) supporting dozens of facilities across an enterprise.
+                You&apos;re responsible for managing a Global Security Operations Center
+                (GSOC), supporting dozens of facilities across an enterprise.
                 Every day, operators are expected to monitor alarms, access
                 control events, live video, intercom calls, and critical
                 incidents occurring across geographically distributed locations.
@@ -740,10 +726,10 @@ function ModernGsocPage() {
                 instead of managing the event itself.
               </p>
               <p>
-                The goal is no longer simply monitoring security systems. The
-                goal is creating a unified picture that allows
-                operators to understand what&apos;s happening and respond
-                effectively in real time.
+                The focus shifted from simply monitoring security systems to
+                creating a unified operational picture that enables operators
+                to understand events as they unfold and respond effectively in
+                real time.
               </p>
             </div>
             <figure className="mt-8">
