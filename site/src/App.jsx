@@ -22,16 +22,16 @@ import {
   Wind,
   X,
 } from "lucide-react";
-import profilePhoto from "./assets/profile.png";
-import cs1Thumbnail from "./assets/case-studies/CS1-thumbnail.png";
-import cs2Thumbnail from "./assets/case-studies/CS2-thumbnail.png";
-import cs3Thumbnail from "./assets/case-studies/CS3-thumbnail.png";
-import milestoneArchitecture from "./assets/case-studies/milestone-architecture.png";
-import cs1SummaryBanner from "./assets/case-studies/cs1-summary-banner.png";
-import cs2SummaryBanner from "./assets/case-studies/cs2-summary-banner.png";
-import cs2ApproachPhoto from "./assets/case-studies/cs2-approach-photo.png";
-import cs3SummaryBanner from "./assets/case-studies/cs3-summary-banner.png";
-import cs3ApproachPhoto from "./assets/case-studies/cs3-approach-photo.png";
+import profilePhoto from "./assets/profile.webp";
+import cs1Thumbnail from "./assets/case-studies/CS1-thumbnail.webp";
+import cs2Thumbnail from "./assets/case-studies/CS2-thumbnail.webp";
+import cs3Thumbnail from "./assets/case-studies/CS3-thumbnail.webp";
+import milestoneArchitecture from "./assets/case-studies/milestone-architecture.webp";
+import cs1SummaryBanner from "./assets/case-studies/cs1-summary-banner.webp";
+import cs2SummaryBanner from "./assets/case-studies/cs2-summary-banner.webp";
+import cs2ApproachPhoto from "./assets/case-studies/cs2-approach-photo.webp";
+import cs3SummaryBanner from "./assets/case-studies/cs3-summary-banner.webp";
+import cs3ApproachPhoto from "./assets/case-studies/cs3-approach-photo.webp";
 
 const techCards = [
   { label: "Milestone XProtect", icon: Video },
@@ -328,6 +328,7 @@ function LightboxImage({ src, alt, className }) {
             <img
               src={src}
               alt={alt}
+              loading="lazy"
               decoding="async"
               className="block h-auto max-h-[90dvh] w-auto max-w-[92vw] rounded-xl border border-red-400/25 object-contain shadow-[0_0_60px_rgba(248,113,113,0.16)]"
             />
@@ -1152,7 +1153,7 @@ function App() {
                 alt="Chris Pawelczyk"
                 width="208"
                 height="208"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
                 className="mx-auto h-48 w-48 rounded-full border border-red-400/40 object-cover shadow-[0_0_60px_rgba(248,113,113,0.24)] md:mx-0 md:h-52 md:w-52"
                 initial={shouldUseMotion ? "hidden" : false}
