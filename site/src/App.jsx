@@ -1386,7 +1386,7 @@ function App() {
                 became a personal project to explore modern AI-assisted
                 development workflows. While I had no prior experience
                 building React applications, I used AI as a collaborative tool
-                to design, build, refine, troubleshoot, and optimize the site
+                to design, build, refine, troubleshoot, and optimize this site
                 from concept to completion.
               </motion.p>
               <motion.p
