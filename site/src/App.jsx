@@ -258,8 +258,10 @@ function PageTransition({ children, transitionKey }) {
   );
 }
 
-function LightboxImage({ src, alt, className }) {
+function LightboxImage({ src, alt, className, priority = false }) {
   const [isOpen, setIsOpen] = useState(false);
+  const loading = priority ? "eager" : "lazy";
+  const fetchPriority = priority ? "high" : "auto";
 
   useEffect(() => {
     if (!isOpen) {
@@ -294,7 +296,8 @@ function LightboxImage({ src, alt, className }) {
         <img
           src={src}
           alt={alt}
-          loading="lazy"
+          loading={loading}
+          fetchPriority={fetchPriority}
           decoding="async"
           className={`${className} transition duration-300 group-hover:scale-[1.01] group-hover:border-red-400/35`}
         />
@@ -392,6 +395,7 @@ function UnifiedVideoPlatformPage() {
                 src={cs1SummaryBanner}
                 alt="Executive-level view of surveillance fragmentation, operational risk, and limited visibility"
                 className={articleImageClass}
+                priority
               />
             </figure>
           </section>
@@ -564,6 +568,7 @@ function VideoAnalyticsPage() {
                 src={cs2SummaryBanner}
                 alt="Operational intelligence summary for video analytics in hospitality operations"
                 className={articleImageClass}
+                priority
               />
             </figure>
           </section>
@@ -738,6 +743,7 @@ function ModernGsocPage() {
                 src={cs3SummaryBanner}
                 alt="Operator-facing view of information overload during security operations"
                 className={articleImageClass}
+                priority
               />
             </figure>
           </section>
