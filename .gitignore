@@ -1,0 +1,12 @@
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Local QA artifacts
+site/.qa-screenshots/

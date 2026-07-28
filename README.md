@@ -1,8 +1,12 @@
 # Chris Pawelczyk Portfolio
 
-My personal portfolio website showcasing enterprise engineering projects, technical case studies, and AI-assisted workflows.
+Personal portfolio website for Chris Pawelczyk, focused on enterprise security technology, infrastructure modernization, and AI-assisted development workflows.
 
-## Technologies
+## Live Site
+
+https://chrispawelczyk.com
+
+## Tech Stack
 
 - React
 - Vite
@@ -11,20 +15,29 @@ My personal portfolio website showcasing enterprise engineering projects, techni
 - Lucide React
 - Azure Static Web Apps
 - GitHub Actions
-- Cloudflare DNS
 
-## Features
+## Local Development
 
-- Responsive design
-- Detailed technical case studies
-- Resume download
-- Automatic deployments via GitHub Actions
-- Custom domain with HTTPS
+```bash
+cd site
+npm install
+npm run dev
+```
 
-## Live Site
+## Quality Checks
 
-https://chrispawelczyk.com
+```bash
+cd site
+npm run lint
+```
 
----
+## Production Build
 
-Built and maintained by Chris Pawelczyk.
+```bash
+cd site
+npm run build
+```
+
+## Deployment
+
+Production deployment is handled through Azure Static Web Apps using the GitHub Actions workflow in `.github/workflows`.
