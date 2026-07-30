@@ -1311,7 +1311,7 @@ function App() {
               solving real-world business challenges.
             </p>
 
-            <div className="mt-10 flex w-full max-w-2xl flex-col gap-4 sm:grid sm:grid-cols-3">
+            <div className="mt-10 flex w-full max-w-2xl flex-col gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
               <a
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=cjpawelczyk@gmail.com"
                 target="_blank"
@@ -1327,6 +1327,14 @@ function App() {
                 className="rounded-xl border-2 border-red-300/35 bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 ring-1 ring-red-200/[0.1] shadow-[0_16px_42px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08),0_0_20px_rgba(248,113,113,0.08)] transition duration-300 hover:border-red-200/55 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12),0_0_26px_rgba(248,113,113,0.18)]"
               >
                 LinkedIn
+              </a>
+              <a
+                href="https://github.com/cpawelczyk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-xl border-2 border-red-300/35 bg-[linear-gradient(135deg,rgba(24,29,40,0.78),rgba(13,16,24,0.9))] px-6 py-4 text-sm font-semibold text-red-200 ring-1 ring-red-200/[0.1] shadow-[0_16px_42px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08),0_0_20px_rgba(248,113,113,0.08)] transition duration-300 hover:border-red-200/55 hover:bg-red-400 hover:text-white hover:shadow-[0_18px_52px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12),0_0_26px_rgba(248,113,113,0.18)]"
+              >
+                GitHub
               </a>
               <a
                 href="/Chris_Pawelczyk_Resume.pdf"
